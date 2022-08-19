@@ -11,7 +11,7 @@ import java.util.Objects;
 
 @Service
 @AllArgsConstructor
-public class KafkaListenerService {
+public class KafkaConsumerService {
     private static final Integer MAX_SENSOR_VALUE = 100;
 
     private final SensorRepository sensorRepository;
@@ -23,15 +23,15 @@ public class KafkaListenerService {
             containerFactory = "kafkaListenerSensorFactory"
     )
     void listener(SensorData data) {
-        if (Objects.equals(data.getSensorData(), MAX_SENSOR_VALUE)) {
-            System.out.println(data);
+        if (Objects.nonNull(data) &&
+                Objects.equals(data.getSensorData(), MAX_SENSOR_VALUE)) {
             Sensor sensor = convertToSensor(data);
             sensorRepository.save(sensor);
-//            emailService.send(
-//                    String.format("Sensor's value exceed %d \n sensorId: %s, data: %s",
-//                            MAX_SENSOR_VALUE,
-//                            data.getSensorId(),
-//                            data.getLocalDateTime().toString()));
+            emailService.send(
+                    String.format("Sensor's value exceed %d \n sensorId: %s, data: %s",
+                            MAX_SENSOR_VALUE,
+                            data.getSensorId(),
+                            data.getLocalDateTime().toString()));
         }
     }
 
