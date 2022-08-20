@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.kafka.common.errors.SerializationException;
 import org.apache.kafka.common.serialization.Serializer;
 
-public class SensorSerializer implements Serializer<SensorData> {
+public class SensorDataSerializer implements Serializer<SensorData> {
     private final ObjectMapper mapper = new ObjectMapper();
 
     @Override

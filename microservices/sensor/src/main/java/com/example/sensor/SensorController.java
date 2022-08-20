@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("api/v1/sensor")
+@RequestMapping("sensor/v1/data")
 public class SensorController {
 
     private final SensorService sensorService;

@@ -19,7 +19,10 @@ public class SensorService {
     public List<SensorData> findAllSensors() {
         return sensorRepository.findAll()
                 .stream()
-                .map(SensorData::new)
+                .map(data -> new SensorData(
+                        data.getSensorId(),
+                        data.getSensorData(),
+                        data.getDateTime()))
                 .toList();
     }
 
@@ -44,4 +47,5 @@ public class SensorService {
                 LocalDateTime.now()
         );
     }
+
 }

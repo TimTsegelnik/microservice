@@ -1,7 +1,7 @@
 package com.example.sensor.config;
 
 import com.example.sensor.sensorDao.SensorData;
-import com.example.sensor.sensorDao.SensorSerializer;
+import com.example.sensor.sensorDao.SensorDataSerializer;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -26,7 +26,7 @@ public class KafkaProducerConfig {
         Map<String, Object> props = new HashMap<>();
         props.put(BOOTSTRAP_SERVERS_CONFIG, bootstrapServer);
         props.put(KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
-        props.put(VALUE_SERIALIZER_CLASS_CONFIG, SensorSerializer.class);
+        props.put(VALUE_SERIALIZER_CLASS_CONFIG, SensorDataSerializer.class);
         return props;
     }
 

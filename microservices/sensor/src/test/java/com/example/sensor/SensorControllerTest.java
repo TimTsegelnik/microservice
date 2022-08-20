@@ -26,7 +26,7 @@ class SensorControllerTest {
     @Test
     void shouldReturnSensorDao() throws Exception {
 
-        MvcResult mvcResult = mockMvc.perform(get("/api/v1/sensor"))
+        MvcResult mvcResult = mockMvc.perform(get("/sensor/v1/data"))
                 .andExpect(status().isOk())
                 .andReturn();
 

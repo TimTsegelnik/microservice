@@ -15,6 +15,7 @@ import static com.example.gatewayservice.config.ApplicationUserRole.ADMIN;
 
 @Configuration
 @EnableWebSecurity
+//todo: replace by FilterChain
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private final PasswordEncoder passwordEncoder;
