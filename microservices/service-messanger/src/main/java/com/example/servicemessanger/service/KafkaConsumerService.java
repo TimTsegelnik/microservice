@@ -1,5 +1,6 @@
 package com.example.servicemessanger.service;
 
+import com.example.servicemessanger.client.SensorDataClient;
 import com.example.servicemessanger.domein.Sensor;
 import com.example.servicemessanger.repository.SensorRepository;
 import com.example.servicemessanger.sensorDao.SensorData;
@@ -13,9 +14,8 @@ import java.util.Objects;
 @AllArgsConstructor
 public class KafkaConsumerService {
     private static final Integer MAX_SENSOR_VALUE = 100;
-
+    private final SensorDataClient sensorDataClient;
     private final SensorRepository sensorRepository;
-    private final EmailService emailService;
 
     @KafkaListener(
             topics = "sensor",
@@ -25,13 +25,8 @@ public class KafkaConsumerService {
     void listener(SensorData data) {
         if (Objects.nonNull(data) &&
                 Objects.equals(data.getSensorData(), MAX_SENSOR_VALUE)) {
-            Sensor sensor = convertToSensor(data);
-            sensorRepository.save(sensor);
-            emailService.send(
-                    String.format("Sensor's value exceed %d \n sensorId: %s, data: %s",
-                            MAX_SENSOR_VALUE,
-                            data.getSensorId(),
-                            data.getLocalDateTime().toString()));
+            sensorRepository.save(convertToSensor(data));
+            sensorDataClient.sendSensorData(data);
         }
     }
 

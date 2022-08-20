@@ -9,7 +9,6 @@ public class SensorSerializer implements Serializer<SensorData> {
 
     @Override
     public byte[] serialize(String topic, SensorData data) {
-
         try {
             if (data == null) {
                 return null;

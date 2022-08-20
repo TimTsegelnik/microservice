@@ -2,7 +2,6 @@ package com.example.sensor.config;
 
 import com.example.sensor.sensorDao.SensorData;
 import com.example.sensor.sensorDao.SensorSerializer;
-import org.apache.kafka.common.protocol.types.Field;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

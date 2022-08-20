@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1/count")
+@RequestMapping("/gate/v1/count-errors")
 public class CounterController {
     private final MessangerServiceClient messangerServiceClient;
 

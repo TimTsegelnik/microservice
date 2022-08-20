@@ -1,11 +1,13 @@
 package com.example.sensor.sensorDao;
 
+import com.example.sensor.domain.Sensor;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+import lombok.Data;
 
 import java.time.LocalDateTime;
-import java.util.Objects;
 
+@Data
 public class SensorData {
 
     private String sensorId;
@@ -13,46 +15,10 @@ public class SensorData {
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     private LocalDateTime localDateTime;
 
-    public SensorData() {
-    }
 
-    public SensorData(String sensorId, Integer sensorData, LocalDateTime localDateTime) {
-        this.sensorId = sensorId;
-        this.sensorData = sensorData;
-        this.localDateTime = localDateTime;
-    }
-
-    public String getSensorId() {
-        return sensorId;
-    }
-
-    public Integer getSensorData() {
-        return sensorData;
-    }
-
-    public LocalDateTime getLocalDateTime() {
-        return localDateTime;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        SensorData that = (SensorData) o;
-        return Objects.equals(sensorId, that.sensorId) && Objects.equals(sensorData, that.sensorData) && Objects.equals(localDateTime, that.localDateTime);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(sensorId, sensorData, localDateTime);
-    }
-
-    @Override
-    public String toString() {
-        return "SensorData{" +
-                "sensorId='" + sensorId + '\'' +
-                ", sensorData=" + sensorData +
-                ", localDateTime=" + localDateTime +
-                '}';
+    public SensorData(Sensor sensor) {
+        this.sensorId = sensor.getSensorId();
+        this.sensorData = getSensorData();
+        this.localDateTime = getLocalDateTime();
     }
 }
