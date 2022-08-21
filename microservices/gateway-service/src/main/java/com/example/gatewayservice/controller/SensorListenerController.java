@@ -34,6 +34,8 @@ public class SensorListenerController {
     public List<SensorData> findSensorBetween(
             @RequestParam("before") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime before,
             @RequestParam("after") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime after) {
-        return sensorListenerClient.findSensorBetween(before, after);
+        return sensorListenerClient.findSensorBetween(
+                before.toString(),
+                after.toString());
     }
 }

@@ -1,29 +1,23 @@
 package com.example.sensor.sensorDao;
 
 import com.example.sensor.domain.Sensor;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
-import lombok.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
-@AllArgsConstructor
-@EqualsAndHashCode
-@ToString
 public class SensorData {
 
     private String sensorId;
     private Integer sensorData;
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
-    private LocalDateTime localDateTime;
+    private LocalDateTime dateTime;
 
 
     public SensorData(Sensor sensor) {
         this.sensorId = sensor.getSensorId();
-        this.sensorData = getSensorData();
-        this.localDateTime = getLocalDateTime();
+        this.sensorData = sensor.getSensorData();
+        this.dateTime = sensor.getDateTime();
     }
 }

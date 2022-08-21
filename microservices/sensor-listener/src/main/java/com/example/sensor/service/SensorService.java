@@ -5,10 +5,11 @@ import com.example.sensor.repository.SensorRepository;
 import com.example.sensor.sensorDao.SensorData;
 import com.example.sensor.sensorDao.SensorMetricsDao;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -16,30 +17,31 @@ public class SensorService {
 
     private final SensorRepository sensorRepository;
 
-    public List<SensorData> findAllSensors() {
-        return sensorRepository.findAll()
-                .stream()
-                .map(data -> new SensorData(
-                        data.getSensorId(),
-                        data.getSensorData(),
-                        data.getDateTime()))
-                .toList();
+    public Page<SensorData> findAllSensors(int page, int size) {
+        return convertToSensorData(sensorRepository.findAll(PageRequest.of(page, size)));
     }
 
-    public List<SensorData> findAllSensorsBetween(String before, String after) {
-        return sensorRepository.findSensorsByDateBeforeAndDateAfter(
-                        LocalDateTime.parse(before),
-                        LocalDateTime.parse(after))
-                .stream()
-                .map(SensorData::new)
-                .toList();
+    public Page<SensorData> findAllSensorsBetween(int page, int size,
+                                                  LocalDateTime startWith,
+                                                  LocalDateTime endWith
+    ) {
+        Page<Sensor> sensorsByDateTimeBetween =
+                sensorRepository.findSensorsByDateTimeBetween(
+                        PageRequest.of(page, size), startWith, endWith);
+
+        return convertToSensorData(sensorsByDateTimeBetween);
     }
+
 
     public Sensor save(SensorMetricsDao sensorMetrics) {
         return sensorRepository.save(convertToSensor(sensorMetrics));
     }
 
-    private Sensor convertToSensor(SensorMetricsDao metricsDao) {
+    private static Page<SensorData> convertToSensorData(Page<Sensor> sensors) {
+        return sensors.map(SensorData::new);
+    }
+
+    private static Sensor convertToSensor(SensorMetricsDao metricsDao) {
         return new Sensor(
                 null,
                 metricsDao.getSensorId(),

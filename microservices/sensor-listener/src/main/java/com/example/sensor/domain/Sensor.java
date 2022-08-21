@@ -1,6 +1,5 @@
 package com.example.sensor.domain;
 
-import com.example.sensor.sensorDao.SensorData;
 import lombok.*;
 import org.hibernate.Hibernate;
 
@@ -26,12 +25,6 @@ public class Sensor {
     private Integer sensorData;
     @Column(name = "timestamp", nullable = false)
     private LocalDateTime dateTime;
-
-    public Sensor(SensorData sensorData) {
-        this.sensorId = sensorData.getSensorId();
-        this.sensorData = sensorData.getSensorData();
-        this.dateTime = sensorData.getLocalDateTime();
-    }
 
     @Override
     public boolean equals(Object o) {

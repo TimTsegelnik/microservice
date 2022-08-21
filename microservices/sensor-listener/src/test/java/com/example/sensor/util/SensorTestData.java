@@ -2,6 +2,8 @@ package com.example.sensor.util;
 
 import com.example.sensor.domain.Sensor;
 import com.example.sensor.sensorDao.SensorData;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -22,13 +24,10 @@ public final class SensorTestData {
         return List.of(SENSOR_NORMAL, SENSOR_LOADED, SENSOR_FAILED);
     }
 
-    public static List<SensorData> getSensorDataTestExample() {
-        return Stream.of(SENSOR_NORMAL, SENSOR_LOADED, SENSOR_FAILED)
-                .map(sensor -> new SensorData(
-                        sensor.getSensorId(),
-                        sensor.getSensorData(),
-                        sensor.getDateTime()
-                ))
-                .toList();
+    public static Page<SensorData> getSensorDataTestExample() {
+        return new PageImpl<>(
+                Stream.of(SENSOR_NORMAL, SENSOR_LOADED, SENSOR_FAILED)
+                        .map(SensorData::new)
+                        .toList());
     }
 }

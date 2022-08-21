@@ -10,8 +10,6 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.util.concurrent.CompletableFuture;
-
 @Service
 @AllArgsConstructor
 @EnableAsync
@@ -21,12 +19,17 @@ public class SensorDataListener {
     private final SensorService sensorService;
 
 
-    //todo: refact
+    //todo: mb refact
+    //  CompletableFuture  = kafkaProductService.send(...);
+    //onSuccess = ok;
+    //onFailure : add to queue and resend
+
     @Async
     @Scheduled(fixedRate = 1000)
     void getSensorData() {
         SensorMetricsDao response = sensorDataClient.getSensorMetrics();
         Sensor sensor = sensorService.save(response);
+        System.out.println(sensor);
         kafkaProducerService.send(new SensorData(sensor));
     }
 

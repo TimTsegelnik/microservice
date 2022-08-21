@@ -11,7 +11,7 @@ public class SensorService {
 
     private final Random random = new Random();
 
-    public SensorDao createFakeSensorMetrics(){
+    public SensorDao createFakeSensorMetrics() {
         return new SensorDao(SENSOR_ID, random.nextInt(MAX_GENERATED_VALUE));
     }
 }

@@ -2,12 +2,13 @@ package com.example.sensor.repository;
 
 
 import com.example.sensor.domain.Sensor;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
-public interface SensorRepository extends JpaRepository<Sensor, Long> {
+public interface SensorRepository extends PagingAndSortingRepository<Sensor, Long> {
 
-    List<Sensor> findSensorsByDateBeforeAndDateAfter(LocalDateTime before, LocalDateTime after);
+    Page<Sensor> findSensorsByDateTimeBetween(Pageable pageable, LocalDateTime startWith, LocalDateTime endWith);
 }

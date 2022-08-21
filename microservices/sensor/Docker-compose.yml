@@ -1,7 +1,0 @@
-services:
-  sensor:
-    build: spring-sensor:latest
-    expose:
-      - 8088
-    
-
