@@ -14,7 +14,7 @@ public class SensorController {
 
     private final SensorService sensorService;
 
-    @GetMapping
+    @GetMapping("/count")
     public ResponseEntity<Long> getCountOfExceedSensorValue() {
         return ResponseEntity
                 .ok(sensorService.countExceedValue());

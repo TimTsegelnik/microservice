@@ -12,7 +12,7 @@ databaseChangeLog:
                   autoIncrement: true
                   constraints:
                     primaryKey: true
-                    primaryKeyName: article_pk
+                    primaryKeyName: sensor_pk
                     nullable: false
               - column:
                   name: sensor_name
