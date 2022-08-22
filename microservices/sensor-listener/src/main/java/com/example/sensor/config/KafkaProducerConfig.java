@@ -27,6 +27,7 @@ public class KafkaProducerConfig {
         props.put(BOOTSTRAP_SERVERS_CONFIG, bootstrapServer);
         props.put(KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         props.put(VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
+        props.put(JsonSerializer.TYPE_MAPPINGS, "sensorData:com.example.sensor.sensorDao.SensorData");
         return props;
     }
 
@@ -39,4 +40,5 @@ public class KafkaProducerConfig {
     public KafkaTemplate<String, SensorData> kafkaTemplate() {
         return new KafkaTemplate<>(producerFactory());
     }
+
 }

@@ -1,0 +1,31 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: Tsegelnik
+      changes:
+        - createTable:
+            tableName: sensor
+            columns:
+              - column:
+                  name: id
+                  type: int8
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: sensor_pk
+                    nullable: false
+              - column:
+                  name: sensor_name
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: sensor_data
+                  type: int4
+                  constraints:
+                    nullable: false
+              - column:
+                  name: timestamp
+                  type: timestamp without time zone
+                  constraints:
+                    nullable: false

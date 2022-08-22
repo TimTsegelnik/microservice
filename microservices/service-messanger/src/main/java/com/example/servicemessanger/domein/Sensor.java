@@ -14,14 +14,16 @@ import java.util.Objects;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "SENSOR")
+@Table(name = "sensor")
 public class Sensor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    @Column(name = "sensor_name", nullable = false)
     private String sensorId;
-    private LocalDateTime localDateTime;
+    @Column(name = "timestamp", nullable = false)
+    private LocalDateTime dateTime;
+    @Column(name = "sensor_data", nullable = false)
     private Integer sensorData;
 
     @Override

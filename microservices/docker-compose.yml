@@ -1,6 +1,29 @@
 version: "2"
 services:
 
+  sensor-listener:
+    image: sensor-listener:latest
+    restart: always
+    expose:
+      - '8088'
+    depends_on:
+      - kafka
+      - zookeeper
+      - sensor
+      - sensor-listenr-db
+
+  sensor-listenr-db:
+    image: postgres:alpine3.13
+    restart: always
+    expose:
+      - '5430'
+    environment:
+      POSTGRES_PASSWORD: qwerty
+
+  sensor:
+    image: sensor:latest
+    restart: always
+
   zookeeper:
     image: 'bitnami/zookeeper:latest'
     expose:

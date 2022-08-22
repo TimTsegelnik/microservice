@@ -1,6 +1,7 @@
 package com.example.sensor.sensorDao;
 
 import com.example.sensor.domain.Sensor;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -8,6 +9,7 @@ import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class SensorData {
 
     private String sensorId;

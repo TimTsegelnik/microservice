@@ -29,6 +29,7 @@ public class SensorDataListener {
     void getSensorData() {
         SensorMetricsDao response = sensorDataClient.getSensorMetrics();
         Sensor sensor = sensorService.save(response);
+
         System.out.println(sensor);
         kafkaProducerService.send(new SensorData(sensor));
     }

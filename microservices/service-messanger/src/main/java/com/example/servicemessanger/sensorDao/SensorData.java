@@ -1,21 +1,18 @@
 package com.example.servicemessanger.sensorDao;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
-@AllArgsConstructor
+@Data
 @NoArgsConstructor
-@Getter
-@Setter
-@EqualsAndHashCode
-@ToString
+@AllArgsConstructor
 public class SensorData {
     private  String sensorId;
     private  Integer sensorData;
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    private  LocalDateTime localDateTime;
+    private  LocalDateTime dateTime;
+
 }
 
