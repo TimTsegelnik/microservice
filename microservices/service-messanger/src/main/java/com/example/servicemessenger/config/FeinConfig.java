@@ -11,6 +11,6 @@ public class FeinConfig {
     @Bean
     SensorDataClient messangerServiceClient() {
         return Feign.builder()
-                .target(SensorDataClient.class, "http://localhost:8085");
+                .target(SensorDataClient.class, "http://messenger:8085");
     }
 }

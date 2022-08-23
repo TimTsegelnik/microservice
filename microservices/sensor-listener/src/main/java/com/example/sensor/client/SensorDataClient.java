@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import javax.validation.Valid;
 
 @Validated
-@FeignClient(name = "sensor", url = "http://localhost:8088")
+@FeignClient(name = "sensor", url = "http://sensor:8088")
 public interface SensorDataClient {
 
     @Valid

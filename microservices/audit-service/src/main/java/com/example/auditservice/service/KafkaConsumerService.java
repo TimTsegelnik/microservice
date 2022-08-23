@@ -14,8 +14,7 @@ public class KafkaConsumerService {
 
     @KafkaListener(
             topics = "sensor",
-            groupId = "1",
-            containerFactory = "kafkaConsumerSensorFactory"
+            groupId = "1"
     )
     void listener(SensorData data) {
         if (Objects.nonNull(data)) {
@@ -24,3 +23,4 @@ public class KafkaConsumerService {
     }
 
 }
+

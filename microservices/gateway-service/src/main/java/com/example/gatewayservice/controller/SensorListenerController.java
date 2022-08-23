@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+
 @RestController
 @RequestMapping("gate/v1/sensors")
 public class SensorListenerController {
@@ -26,14 +28,14 @@ public class SensorListenerController {
         this.sensorListenerClient = sensorListenerClient;
     }
 
-    @GetMapping
+    @GetMapping(produces = APPLICATION_JSON_VALUE)
     @JsonView(Views.SensorData.class)
     public ResponseEntity<List<SensorData>> getAllSensorsMetrics(Pageable pageable) {
         Page<SensorData> allSensors = sensorListenerClient.getAllSensors(pageable);
         return ResponseEntity.ok(allSensors.getContent());
     }
 
-    @GetMapping("/between")
+    @GetMapping(path = "/between", produces = APPLICATION_JSON_VALUE)
     @JsonView(Views.SensorData.class)
     public ResponseEntity<List<SensorData>> findSensorBetween(
             Pageable page,

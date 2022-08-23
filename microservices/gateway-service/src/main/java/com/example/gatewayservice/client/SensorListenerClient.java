@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDateTime;
 
-@FeignClient(name = "sensor-listener", url = "http://localhost:8087")
+@FeignClient(name = "sensor-listener", url = "http://sensor-listener:8087")
 public interface SensorListenerClient {
 
     @GetMapping("/sensor-listener/v1/sensors")

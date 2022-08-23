@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+
 @RestController
 @RequestMapping("gate/v1/audit")
 public class AuditController {
@@ -25,7 +27,7 @@ public class AuditController {
         this.auditClient = auditClient;
     }
 
-    @GetMapping("/{status}")
+    @GetMapping(path = "/{status}", produces = APPLICATION_JSON_VALUE)
     @JsonView({Views.SensorStatus.class})
     public ResponseEntity<List<SensorData>> getSensorDataWithStatus(
             Pageable page,

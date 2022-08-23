@@ -1,27 +1,125 @@
-version: "2"
+version: "2.1"
 services:
 
-  sensor-listener:
-    image: sensor-listener:latest
+  gateway-service:
+    image: 'gateway-service'
+    build:
+      context: gateway-service/.
+    container_name: gateway
     restart: always
     expose:
-      - '8088'
+      - '8080'
+    ports:
+      - '8080:8080'
+    depends_on:
+      - service-audit
+      - service-messenger
+
+  # ////////////////////////////
+
+  service-messenger:
+    image: 'service-messenger'
+    build:
+      context: service-messanger/.
+    container_name: service-messanger
+    restart: always
+    expose:
+      - '8086'
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://messenger-db:5430/postgres
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=1234
+    depends_on:
+      - sensor-listener
+      - service-messenger-db
+      - messenger
+
+  service-messenger-db:
+    image: postgres:alpine3.13
+    container_name: messenger-db
+    restart: always
+    expose:
+      - '5430'
+    command: -p 5430
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=1234
+
+  messenger:
+    image: 'messenger'
+    build:
+      context: messanger/.
+    container_name: messenger
+    restart: always
+    expose:
+      - '8085'
+
+    # //////////////////////////////
+
+  service-audit:
+    image: 'audit-service'
+    build:
+      context: audit-service/.
+    container_name: audit
+    restart: always
+    expose:
+      - '8084'
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://audit-db:5431/postgres
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=1234
+    depends_on:
+      - sensor-listener
+      - service-audit-db
+
+  service-audit-db:
+    image: postgres:alpine3.13
+    restart: always
+    container_name: audit-db
+    expose:
+      - '5431'
+    command: -p 5431
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=1234
+
+  # ///////////////////////////////
+
+  sensor-listener:
+    image: 'sensor-listener:latest'
+    build:
+      context: sensor-listener/.
+    container_name: sensor-listener
+    restart: always
+    expose:
+      - '8087'
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://sensor-listener-db:5432/postgres
+      - SPRING_DATASOURCE_USERNAME=user
+      - SPRING_DATASOURCE_PASSWORD=password
     depends_on:
       - kafka
       - zookeeper
       - sensor
-      - sensor-listenr-db
+      - sensor-listener-db
 
-  sensor-listenr-db:
+  sensor-listener-db:
     image: postgres:alpine3.13
+    container_name: sensor-listener-db
     restart: always
-    expose:
-      - '5430'
     environment:
-      POSTGRES_PASSWORD: qwerty
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+
+  # ////////////////////////////////
 
   sensor:
-    image: sensor:latest
+    image: 'sensor:latest'
+    build:
+      context: sensor/.
+    container_name: sensor
+    expose:
+      - '8088'
     restart: always
 
   zookeeper:
@@ -35,8 +133,8 @@ services:
     image: 'bitnami/kafka:latest'
     container_name: kafka
     restart: on-failure
-    ports:
-      - '9092:9092'
+    expose:
+      - '9092'
     environment:
       - KAFKA_BROKER_ID=1
       - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092

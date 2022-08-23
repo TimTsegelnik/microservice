@@ -1,0 +1,4 @@
+databaseChangeLog:
+  - include:
+      file: db/liquidbase/changelogs/changelog-1.0.sql
+
