@@ -5,6 +5,8 @@ import com.example.gatewayservice.dao.SensorData;
 import com.example.gatewayservice.dao.SensorStatus;
 import com.example.gatewayservice.dao.Views;
 import com.fasterxml.jackson.annotation.JsonView;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,7 +27,11 @@ public class AuditController {
 
     @GetMapping("/{status}")
     @JsonView({Views.SensorStatus.class})
-    public ResponseEntity<List<SensorData>> getSensorDataWithStatus(@PathVariable("status") SensorStatus status) {
-        return ResponseEntity.ok(auditClient.getAllSensorsWithStatus(status));
+    public ResponseEntity<List<SensorData>> getSensorDataWithStatus(
+            Pageable page,
+            @PathVariable("status") SensorStatus status
+    ) {
+        Page<SensorData> sensorWithStatus = auditClient.getAllSensorsWithStatus(page, status);
+        return ResponseEntity.ok(sensorWithStatus.getContent());
     }
 }

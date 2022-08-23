@@ -18,6 +18,5 @@ public class CounterController {
     @GetMapping
     public ResponseEntity<Long> getSensorData() {
             return ResponseEntity.ok(messengerServiceClient.getExceedSensorData());
-
     }
 }

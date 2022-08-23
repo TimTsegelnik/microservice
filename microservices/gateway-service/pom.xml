@@ -35,12 +35,6 @@
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-commons</artifactId>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/com.netflix.feign/feign-jackson -->
-        <dependency>
-            <groupId>com.netflix.feign</groupId>
-            <artifactId>feign-jackson</artifactId>
-            <version>8.18.0</version>
-        </dependency>
 
         <dependency>
             <groupId>io.springfox</groupId>
