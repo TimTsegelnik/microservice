@@ -8,7 +8,7 @@
 <li>gateway</li>
 <li>audit - service</li>
 <li>???????</li>
-<li>service - messanger</li>
+<li>service - messenger</li>
 <li>sensor - listener</li>
 <li>sensor</li>
 </ol>
@@ -32,7 +32,7 @@
     listens to Kafka and when its message contains a sensorValue == 100
     sends a request to the gmail-service.
 </pre>
-<h3>gmail - messanger:</h3>
+<h3>gmail - messenger:</h3>
 <pre>
     sends message to email
 </pre>

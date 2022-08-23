@@ -1,18 +1,23 @@
 package com.example.gatewayservice.client;
 
 import com.example.gatewayservice.dao.SensorData;
-import feign.Param;
-import feign.RequestLine;
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.List;
+import java.time.LocalDateTime;
 
+@FeignClient(name = "sensor-listener", url = "http://localhost:8087")
 public interface SensorListenerClient {
 
-    @RequestLine("GET /sensor-listener/v1/sensors")
-    List<SensorData> getAllSensors();
+    @GetMapping("/sensor-listener/v1/sensors")
+    Page<SensorData> getAllSensors(Pageable pageable);
 
-    @RequestLine("GET /sensor-listener/v1/sensors/between?before={before}&after={after}")
-    List<SensorData> findSensorBetween(
-            @Param("before") String before,
-            @Param("after") String after);
+    @GetMapping("/sensor-listener/v1/sensors/between")
+    Page<SensorData> findSensorBetween(
+            Pageable page,
+            @RequestParam("startWith") LocalDateTime startWith,
+            @RequestParam("endWith") LocalDateTime endWith);
 }

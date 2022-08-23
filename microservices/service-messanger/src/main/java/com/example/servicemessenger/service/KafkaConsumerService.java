@@ -1,9 +1,9 @@
-package com.example.servicemessanger.service;
+package com.example.servicemessenger.service;
 
-import com.example.servicemessanger.client.SensorDataClient;
-import com.example.servicemessanger.domein.Sensor;
-import com.example.servicemessanger.repository.SensorRepository;
-import com.example.servicemessanger.sensorDao.SensorData;
+import com.example.servicemessenger.client.SensorDataClient;
+import com.example.servicemessenger.domein.Sensor;
+import com.example.servicemessenger.repository.SensorRepository;
+import com.example.servicemessenger.sensorDao.SensorData;
 import lombok.AllArgsConstructor;
 import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.annotation.KafkaListener;

@@ -1,6 +1,6 @@
-package com.example.servicemessanger.controller;
+package com.example.servicemessenger.controller;
 
-import com.example.servicemessanger.service.SensorService;
+import com.example.servicemessenger.service.SensorService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -1,4 +1,4 @@
-package com.example.servicemessanger.sensorDao;
+package com.example.servicemessenger.sensorDao;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

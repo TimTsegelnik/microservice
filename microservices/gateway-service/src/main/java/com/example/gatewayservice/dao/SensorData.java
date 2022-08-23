@@ -1,6 +1,5 @@
 package com.example.gatewayservice.dao;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonView;
 
 import java.time.LocalDateTime;
@@ -10,21 +9,23 @@ public class SensorData {
     @JsonView(Views.SensorData.class)
     private String sensorId;
     @JsonView(Views.SensorData.class)
-    private Integer value;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    private Integer sensorData;
     @JsonView(Views.SensorData.class)
     private LocalDateTime dateTime;
     @JsonView(Views.SensorStatus.class)
     private SensorStatus status;
 
-    public SensorData(String sensorId, Integer value, LocalDateTime dateTime) {
+    public SensorData() {
+    }
+
+    public SensorData(String sensorId, Integer sensorData, LocalDateTime dateTime) {
         this.sensorId = sensorId;
-        this.value = value;
+        this.sensorData = sensorData;
         this.dateTime = dateTime;
     }
-    public SensorData(String sensorId, Integer value, LocalDateTime dateTime, SensorStatus status) {
+    public SensorData(String sensorId, Integer sensorData, LocalDateTime dateTime, SensorStatus status) {
         this.sensorId = sensorId;
-        this.value = value;
+        this.sensorData = sensorData;
         this.dateTime = dateTime;
         this.status = status;
     }
@@ -33,8 +34,8 @@ public class SensorData {
         return sensorId;
     }
 
-    public Integer getValue() {
-        return value;
+    public Integer getSensorData() {
+        return sensorData;
     }
 
     public LocalDateTime getDateTime() {
@@ -49,8 +50,8 @@ public class SensorData {
         this.sensorId = sensorId;
     }
 
-    public void setValue(Integer value) {
-        this.value = value;
+    public void setSensorData(Integer sensorData) {
+        this.sensorData = sensorData;
     }
 
     public void setDateTime(LocalDateTime dateTime) {
@@ -65,7 +66,7 @@ public class SensorData {
     public String toString() {
         return "SensorDao{" +
                 "sensorId='" + sensorId + '\'' +
-                ", value=" + value +
+                ", value=" + sensorData +
                 ", dateTime=" + dateTime +
                 '}';
     }

@@ -1,4 +1,4 @@
-package com.example.servicemessanger.domein;
+package com.example.servicemessenger.domein;
 
 
 import lombok.*;

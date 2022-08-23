@@ -6,7 +6,7 @@ import com.example.sensor.sensorDao.SensorData;
 import com.example.sensor.sensorDao.SensorMetricsDao;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -17,17 +17,18 @@ public class SensorService {
 
     private final SensorRepository sensorRepository;
 
-    public Page<SensorData> findAllSensors(int page, int size) {
-        return convertToSensorData(sensorRepository.findAll(PageRequest.of(page, size)));
+    public Page<SensorData> findAllSensors(Pageable page) {
+        return convertToSensorData(sensorRepository.findAll(page));
     }
 
-    public Page<SensorData> findAllSensorsBetween(int page, int size,
-                                                  LocalDateTime startWith,
-                                                  LocalDateTime endWith
+    public Page<SensorData> findAllSensorsBetween(
+            Pageable page,
+            LocalDateTime startWith,
+            LocalDateTime endWith
     ) {
         Page<Sensor> sensorsByDateTimeBetween =
                 sensorRepository.findSensorsByDateTimeBetween(
-                        PageRequest.of(page, size), startWith, endWith);
+                        page, startWith, endWith);
 
         return convertToSensorData(sensorsByDateTimeBetween);
     }

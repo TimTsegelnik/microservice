@@ -1,6 +1,6 @@
-package com.example.servicemessanger.repository;
+package com.example.servicemessenger.repository;
 
-import com.example.servicemessanger.domein.Sensor;
+import com.example.servicemessenger.domein.Sensor;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface SensorRepository extends JpaRepository<Sensor, Long> {

@@ -1,4 +1,4 @@
-package com.example.servicemessanger.config;
+package com.example.servicemessenger.config;
 
 import org.springframework.context.annotation.Configuration;
 
