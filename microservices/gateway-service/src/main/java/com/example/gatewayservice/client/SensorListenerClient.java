@@ -7,8 +7,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.time.LocalDateTime;
-
 @FeignClient(name = "sensor-listener", url = "http://sensor-listener:8087")
 public interface SensorListenerClient {
 
@@ -17,7 +15,7 @@ public interface SensorListenerClient {
 
     @GetMapping("/sensor-listener/v1/sensors/between")
     Page<SensorData> findSensorBetween(
-            Pageable page,
-            @RequestParam("startWith") LocalDateTime startWith,
-            @RequestParam("endWith") LocalDateTime endWith);
+            @RequestParam("startWith") String startWith,
+            @RequestParam("endWith") String endWith,
+            Pageable page);
 }

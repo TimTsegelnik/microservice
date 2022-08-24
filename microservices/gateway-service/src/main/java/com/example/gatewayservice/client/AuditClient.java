@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 @FeignClient(name = "audit", url = "http://audit:8084")
 public interface AuditClient {
 
-    @GetMapping("/audit/v1/sensors/{status}")
+    @GetMapping(value = "/audit/v1/sensors/{status}")
     Page<SensorData> getAllSensorsWithStatus(
-            Pageable page,
-            @PathVariable("status") SensorStatus status);
+            @PathVariable("status") SensorStatus status,
+            Pageable page);
 }

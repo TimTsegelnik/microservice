@@ -5,10 +5,9 @@ import com.example.auditservice.domein.SensorStatus;
 import com.example.auditservice.repository.SensorRepository;
 import com.example.auditservice.sensorDao.SensorData;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 import static com.example.auditservice.domein.SensorStatus.*;
 
@@ -24,7 +23,7 @@ public class SensorService {
     private Sensor convertToSensor(SensorData data) {
         Integer sensorData = data.getSensorData();
 
-        Sensor sensor = new Sensor(null, data.getSensorId(), data.getDateTime(), sensorData, null);
+        Sensor sensor = new Sensor(null, data.getSensorId(), data.getDateTime(), data.getSensorData(), null);
 
         if (sensorData <= NORMAL.getMaxValue() && sensorData >= 0) {
             sensor.setStatus(NORMAL);
@@ -35,10 +34,11 @@ public class SensorService {
         } else if (sensorData > FAILED.getMaxValue()) {
             throw new IllegalStateException("Sensor value cannot exceed 100 or be below 0, current value: " + sensorData);
         }
+        System.out.println(sensor);
         return sensor;
     }
 
-    public List<Sensor> getAllSensorWithStatus(Pageable page, SensorStatus status) {
+    public Page<Sensor> getAllSensorWithStatus(Pageable page, SensorStatus status) {
         return sensorRepository.findAllByStatusIs(page, status);
     }
 }

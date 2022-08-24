@@ -30,10 +30,10 @@ public class AuditController {
     @GetMapping(path = "/{status}", produces = APPLICATION_JSON_VALUE)
     @JsonView({Views.SensorStatus.class})
     public ResponseEntity<List<SensorData>> getSensorDataWithStatus(
-            Pageable page,
-            @PathVariable("status") SensorStatus status
+            @PathVariable("status") SensorStatus status,
+            Pageable page
     ) {
-        Page<SensorData> sensorWithStatus = auditClient.getAllSensorsWithStatus(page, status);
+        Page<SensorData> sensorWithStatus = auditClient.getAllSensorsWithStatus(status, page);
         return ResponseEntity.ok(sensorWithStatus.getContent());
     }
 }

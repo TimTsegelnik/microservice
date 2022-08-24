@@ -6,14 +6,12 @@ import com.example.gatewayservice.dao.Views;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
@@ -38,10 +36,11 @@ public class SensorListenerController {
     @GetMapping(path = "/between", produces = APPLICATION_JSON_VALUE)
     @JsonView(Views.SensorData.class)
     public ResponseEntity<List<SensorData>> findSensorBetween(
-            Pageable page,
-            @RequestParam("startWith") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startWith,
-            @RequestParam("endWith") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endWith) {
-        Page<SensorData> sensorBetween = sensorListenerClient.findSensorBetween(page, startWith, endWith);
+            @RequestParam("startWith") String startWith,
+            @RequestParam("endWith") String endWith,
+            Pageable page) {
+        System.out.println(page + " " + startWith + " " + endWith);
+        Page<SensorData> sensorBetween = sensorListenerClient.findSensorBetween(startWith, endWith, page);
         return ResponseEntity.ok(sensorBetween.getContent());
     }
 }

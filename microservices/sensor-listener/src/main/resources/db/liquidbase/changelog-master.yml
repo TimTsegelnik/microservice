@@ -15,7 +15,7 @@ databaseChangeLog:
                     primaryKeyName: sensor_pk
                     nullable: false
               - column:
-                  name: sensor_name
+                  name: sensor_id
                   type: varchar(50)
                   constraints:
                     nullable: false

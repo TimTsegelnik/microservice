@@ -16,10 +16,10 @@ import java.util.Objects;
 @Table(name = "sensor_metrics")
 public class Sensor {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
-    @Column(name = "sensor_name", nullable = false)
+    @Column(name = "sensor_id", nullable = false)
     private String sensorId;
     @Column(name = "sensor_data", nullable = false)
     private Integer sensorData;

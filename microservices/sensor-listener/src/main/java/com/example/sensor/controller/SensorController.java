@@ -27,10 +27,11 @@ public class SensorController {
 
     @GetMapping("/between")
     public Page<SensorData> findSensorsBetween(
-            Pageable page,
             @RequestParam("startWith") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startWith,
-            @RequestParam("endWith") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endWith
+            @RequestParam("endWith") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endWith,
+            Pageable page
     ) {
+        System.out.println(page + " " + startWith + " " + endWith);
         return sensorService.findAllSensorsBetween(page, startWith, endWith);
     }
 

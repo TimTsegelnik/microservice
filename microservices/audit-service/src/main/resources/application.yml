@@ -5,6 +5,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: none
+    show-sql: true
   kafka:
     bootstrap-servers: kafka:9092
     consumer:
@@ -16,3 +17,7 @@ spring:
       spring.json.type.mapping: "sensorData:com.example.auditservice.sensorDao.SensorData"
   liquibase:
     change-log: classpath:db/liquidbase/changelog-master.yml
+  datasource:
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
