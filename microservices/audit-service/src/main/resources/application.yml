@@ -6,8 +6,13 @@ spring:
     hibernate:
       ddl-auto: none
     show-sql: true
+    properties:
+      hibernate:
+        jdbc:
+          batch:
+            builder: com.example.auditservice.jdbc.CustomBatchBuilder
   kafka:
-    bootstrap-servers: kafka:9092
+    bootstrap-servers: kafka:9093
     consumer:
       key-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
       value-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer

@@ -15,9 +15,11 @@ import java.util.Objects;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "sensor")
+@IdClass(CompositeSensorKey.class)
 public class Sensor {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sensor_seq")
+    @SequenceGenerator(name = "sensor_seq", sequenceName = "sensor_seq", allocationSize = 1)
     private Long id;
     @Column(name = "sensor_name", nullable = false)
     private String sensorId;
@@ -25,6 +27,7 @@ public class Sensor {
     private LocalDateTime dateTime;
     @Column(name = "sensor_data", nullable = false)
     private Integer sensorData;
+    @Id
     @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
     private SensorStatus status;
