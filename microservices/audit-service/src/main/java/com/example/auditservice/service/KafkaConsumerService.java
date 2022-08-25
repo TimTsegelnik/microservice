@@ -17,7 +17,6 @@ public class KafkaConsumerService {
             groupId = "2"
     )
     void listener(SensorData data) {
-        System.out.println(data);
         if (Objects.nonNull(data)) {
             sensorService.save(data);
         }

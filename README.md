@@ -16,44 +16,31 @@
 
 <h3>gateway:</h3>
 <pre>
-    gateway
+    Gateway accepts a request and validates it, then distributes it to internal services.
 </pre>
-<h3>audit - service:</h3>
+<h3>Audit - service:</h3>
 <pre>
-    listens to Kafka and, depending on a sensorValue, assigns a status and 
-    stores it to db.
-    Statuses: 
+    Audit listens to the Kafka and, depending on a sensorValue assigns one of statuses:  
        NORMAL = 0 - 30  
        LOADED = 31 - 60  
-       FAILED = 61 - 100 
+       FAILED = 61 - 100
+    Then it stores data in the postgres bd, which one's using partition data by statuses.
 </pre>
 <h3>???????:</h3>
 <pre>
-    listens to Kafka and when its message contains a sensorValue == 100
-    sends a request to the gmail-service.
+    Listens to Kafka, if its message contains a sensorValue that equals 100,
+    stores data in bd and sends a request to the messenger.
 </pre>
-<h3>gmail - messenger:</h3>
+<h3>Messenger:</h3>
 <pre>
-    sends message to email
+    Messenger just merely sends message to a certain email
 </pre>
-<h3>sensor - listener:</h3>
+<h3>Sensor - listener:</h3>
 <pre>
-    requests data from sensor every 1 sec than stores it in db and 
+    Every one second Sensor-listener requests data from sensor than stores it in the Postgres db and 
     sends it by kafka to other services.
-
-    Get: sensor-listener/v1/sensors 
-        @Param page=int
-        @Param size=int
-    response: get all sensors storing in db
-
-    Get: sensor-listener/v1/sensors/between
-        @Param page=int
-        @Param size=int 
-        @Param endWith=LocalDateTime
-        @Param startWith=LocalDateTime
 </pre>
-<h3>sensor:</h3>
+<h3>Sensor:</h3>
 <pre>
-    Get: /sensor/v1/data 
-    response: random int 0-100
+    For each request Sensor creates random sensorValue in a range between 0 and 100.  
 </pre>

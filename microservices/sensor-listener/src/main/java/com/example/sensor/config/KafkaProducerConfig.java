@@ -18,6 +18,7 @@ import static org.apache.kafka.clients.producer.ProducerConfig.*;
 @Configuration
 public class KafkaProducerConfig {
 
+    private static final String SENSOR_DATA_PATH = "sensorData:com.example.sensor.sensorDao.SensorData";
     @Value("${spring.kafka.bootstrap-servers}")
     private String bootstrapServer;
 
@@ -27,7 +28,7 @@ public class KafkaProducerConfig {
         props.put(BOOTSTRAP_SERVERS_CONFIG, bootstrapServer);
         props.put(KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         props.put(VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
-        props.put(JsonSerializer.TYPE_MAPPINGS, "sensorData:com.example.sensor.sensorDao.SensorData");
+        props.put(JsonSerializer.TYPE_MAPPINGS, SENSOR_DATA_PATH);
         return props;
     }
 
