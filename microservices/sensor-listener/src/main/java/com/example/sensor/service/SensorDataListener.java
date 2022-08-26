@@ -5,6 +5,7 @@ import com.example.sensor.domain.Sensor;
 import com.example.sensor.sensorDao.SensorData;
 import com.example.sensor.sensorDao.SensorMetricsDao;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 @Service
 @AllArgsConstructor
 @EnableAsync
+@Slf4j
 public class SensorDataListener {
     private final SensorDataClient sensorDataClient;
     private final KafkaProducerService kafkaProducerService;
@@ -28,6 +30,7 @@ public class SensorDataListener {
     @Scheduled(fixedRate = 1000)
     void getSensorData() {
         SensorMetricsDao response = sensorDataClient.getSensorMetrics();
+        log.info("Received from sensor data {}", response);
         Sensor sensor = sensorService.save(response);
         kafkaProducerService.send(new SensorData(sensor));
     }

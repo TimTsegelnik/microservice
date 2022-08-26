@@ -3,6 +3,7 @@ package com.example.sensor.controller;
 import com.example.sensor.sensorDao.SensorData;
 import com.example.sensor.service.SensorService;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -16,12 +17,14 @@ import java.time.LocalDateTime;
 @RestController
 @RequestMapping("/sensor-listener/v1/sensors")
 @AllArgsConstructor
+@Slf4j
 public class SensorController {
 
     private final SensorService sensorService;
 
     @GetMapping
     public Page<SensorData> getAllSensors(Pageable page) {
+        log.info("SensorController Get: /sensor-listener/v1/sensors pageable={}", page);
         return sensorService.findAllSensors(page);
     }
 
@@ -32,6 +35,7 @@ public class SensorController {
             Pageable page
     ) {
         System.out.println(page + " " + startWith + " " + endWith);
+        log.info("SensorController Get: /sensor-listener/v1/sensors/between/ startWith={}, endWith={}, pageable={}", startWith, endWith, page);
         return sensorService.findAllSensorsBetween(page, startWith, endWith);
     }
 
