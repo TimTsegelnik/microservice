@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 public class FeinConfig {
 
     @Bean
-    SensorDataClient messangerServiceClient() {
+    SensorDataClient messengerServiceClient() {
         return Feign.builder()
                 .target(SensorDataClient.class, "http://messenger:8085");
     }

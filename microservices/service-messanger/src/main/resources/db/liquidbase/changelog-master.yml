@@ -1,4 +1,7 @@
 databaseChangeLog:
+  - includeAll:
+      path: db/liquidbase/changelogs
+
   - changeSet:
       id: 1
       author: Tsegelnik
