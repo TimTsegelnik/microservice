@@ -17,8 +17,7 @@ import java.util.Objects;
 @Table(name = "sensor")
 public class Sensor {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sensor_seq")
-    @SequenceGenerator(name = "sensor_seq", sequenceName = "sensor_seq", allocationSize = 1, initialValue = 10)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "sensor_name", nullable = false)
     private String sensorId;
