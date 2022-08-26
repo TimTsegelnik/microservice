@@ -1,7 +1,6 @@
 package com.example.servicemessenger.repository;
 
 import com.example.servicemessenger.domein.Sensor;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -19,10 +18,6 @@ class SensorRepositoryTest {
     @Autowired
     private SensorRepository sensorRepository;
 
-    @AfterEach
-    void clean_up() {
-        sensorRepository.deleteAllInBatch(getPopulatedSensors());
-    }
 
     @Test
     void should_save_new_sensor() {
