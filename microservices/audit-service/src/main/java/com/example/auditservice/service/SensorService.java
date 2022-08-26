@@ -5,6 +5,7 @@ import com.example.auditservice.domein.SensorStatus;
 import com.example.auditservice.repository.SensorRepository;
 import com.example.auditservice.sensorDao.SensorData;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,7 @@ import static com.example.auditservice.domein.SensorStatus.*;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class SensorService {
     private final SensorRepository sensorRepository;
 
@@ -32,9 +34,10 @@ public class SensorService {
         } else if (sensorData <= FAILED.getMaxValue() && sensorData > LOADED.getMaxValue()) {
             sensor.setStatus(FAILED);
         } else if (sensorData > FAILED.getMaxValue()) {
+            log.error("Sensor data have incorrect value = {}", sensorData);
             throw new IllegalStateException("Sensor value cannot exceed 100 or be below 0, current value: " + sensorData);
         }
-        System.out.println(sensor);
+        log.info("Sensor is saving in db: {}", sensor);
         return sensor;
     }
 

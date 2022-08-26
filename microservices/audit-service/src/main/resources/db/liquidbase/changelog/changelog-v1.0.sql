@@ -1,7 +1,7 @@
 --liquibase formatted sql
 
 --changeset Tsegelnik:1.0
-CREATE SEQUENCE sensor_seq as int8;
+CREATE SEQUENCE sensor_seq as int8 start 10;
 
 --changeset Tsegelnik:1.1
 CREATE TABLE SENSOR

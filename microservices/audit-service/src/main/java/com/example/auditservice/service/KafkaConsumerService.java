@@ -2,6 +2,7 @@ package com.example.auditservice.service;
 
 import com.example.auditservice.sensorDao.SensorData;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
@@ -9,6 +10,7 @@ import java.util.Objects;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class KafkaConsumerService {
     private final SensorService sensorService;
 
@@ -17,6 +19,7 @@ public class KafkaConsumerService {
             groupId = "2"
     )
     void listener(SensorData data) {
+        log.info("SensorData received from Kafka: {}", data);
         if (Objects.nonNull(data)) {
             sensorService.save(data);
         }

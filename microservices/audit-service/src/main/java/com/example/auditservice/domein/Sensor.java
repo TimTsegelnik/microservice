@@ -19,7 +19,7 @@ import java.util.Objects;
 public class Sensor {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sensor_seq")
-    @SequenceGenerator(name = "sensor_seq", sequenceName = "sensor_seq", allocationSize = 1)
+    @SequenceGenerator(name = "sensor_seq", sequenceName = "sensor_seq", allocationSize = 1, initialValue = 10)
     private Long id;
     @Column(name = "sensor_name", nullable = false)
     private String sensorId;
