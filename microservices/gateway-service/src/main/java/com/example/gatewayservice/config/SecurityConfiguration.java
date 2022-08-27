@@ -2,21 +2,22 @@ package com.example.gatewayservice.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.filter.CommonsRequestLoggingFilter;
 
 import static com.example.gatewayservice.config.ApplicationUserRole.ADMIN;
 
 @Configuration
 @EnableWebSecurity
-//todo: replace by FilterChain
-public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+public class SecurityConfiguration {
 
     private final PasswordEncoder passwordEncoder;
 
@@ -24,18 +25,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         this.passwordEncoder = passwordEncoder;
     }
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http
-                .authorizeRequests()
-                .antMatchers("/gate/v1/**").hasRole(ADMIN.name())
-                .anyRequest()
-                .authenticated()
-                .and()
-                .formLogin();
-    }
-
-    @Override
     @Bean
     protected UserDetailsService userDetailsService() {
         UserDetails admin = User.builder()
@@ -45,5 +34,26 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .build();
 
         return new InMemoryUserDetailsManager(admin);
+    }
+
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        return http
+                .authorizeRequests(
+                        authorize -> authorize.anyRequest().hasRole(ADMIN.name())
+                )
+                .formLogin(Customizer.withDefaults())
+                .build();
+
+    }
+
+    @Bean
+    public CommonsRequestLoggingFilter requestLoggingFilter() {
+        CommonsRequestLoggingFilter loggingFilter = new CommonsRequestLoggingFilter();
+        loggingFilter.setIncludeClientInfo(true);
+        loggingFilter.setIncludeQueryString(true);
+        loggingFilter.setIncludePayload(true);
+        loggingFilter.setMaxPayloadLength(64000);
+        return loggingFilter;
     }
 }

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
@@ -36,10 +37,9 @@ public class SensorListenerController {
     @GetMapping(path = "/between", produces = APPLICATION_JSON_VALUE)
     @JsonView(Views.SensorData.class)
     public ResponseEntity<List<SensorData>> findSensorBetween(
-            @RequestParam("startWith") String startWith,
-            @RequestParam("endWith") String endWith,
+            @RequestParam("startWith") LocalDateTime startWith,
+            @RequestParam("endWith") LocalDateTime endWith,
             Pageable page) {
-        System.out.println(page + " " + startWith + " " + endWith);
         Page<SensorData> sensorBetween = sensorListenerClient.findSensorBetween(startWith, endWith, page);
         return ResponseEntity.ok(sensorBetween.getContent());
     }
