@@ -1,6 +1,6 @@
-package com.example.servicemessenger.config;
+package com.example.allarm.config;
 
-import com.example.servicemessenger.client.SensorDataClient;
+import com.example.allarm.client.SensorDataClient;
 import feign.Feign;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

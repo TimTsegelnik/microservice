@@ -7,13 +7,11 @@ import com.example.sensor.sensorDao.SensorMetricsDao;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
-@EnableAsync
 @Slf4j
 public class SensorDataListener {
     private final SensorDataClient sensorDataClient;
@@ -21,14 +19,11 @@ public class SensorDataListener {
     private final SensorService sensorService;
 
 
-    //todo: mb refact
-    //  CompletableFuture  = kafkaProductService.send(...);
-    //onSuccess = ok;
-    //onFailure : add to queue and resend
+
 
     @Async
     @Scheduled(fixedRate = 1000)
-    void getSensorData() {
+    public void getSensorData() {
         SensorMetricsDao response = sensorDataClient.getSensorMetrics();
         log.info("Received from sensor data {}", response);
         Sensor sensor = sensorService.save(response);
@@ -38,6 +33,6 @@ public class SensorDataListener {
    /* @Async
     CompletableFuture<SensorMetricsDao> getSensorData(){
         SensorMetricsDao response = sensorDataClient.getSensorMetrics();
-        return CompletableFuture.completedFuture(sensorMetrics);
+        return CompletableFuture.completedFuture(....);
     }*/
 }

@@ -1,6 +1,6 @@
-package com.example.servicemessenger.client;
+package com.example.allarm.client;
 
-import com.example.servicemessenger.sensorDao.SensorData;
+import com.example.allarm.sensorDao.SensorData;
 import feign.RequestLine;
 
 public interface SensorDataClient {

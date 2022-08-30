@@ -1,6 +1,6 @@
-package com.example.servicemessenger.controller;
+package com.example.allarm.controller;
 
-import com.example.servicemessenger.service.SensorService;
+import com.example.allarm.service.SensorService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;

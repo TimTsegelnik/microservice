@@ -1,6 +1,6 @@
 package com.example.servicemessenger;
 
-import com.example.servicemessenger.domein.Sensor;
+import com.example.allarm.domein.Sensor;
 
 import java.time.LocalDateTime;
 import java.util.List;

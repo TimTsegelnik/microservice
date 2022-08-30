@@ -1,6 +1,6 @@
-package com.example.servicemessenger.service;
+package com.example.allarm.service;
 
-import com.example.servicemessenger.repository.SensorRepository;
+import com.example.allarm.repository.SensorRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

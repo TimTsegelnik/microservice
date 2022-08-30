@@ -4,6 +4,7 @@ import com.example.gatewayservice.client.AuditClient;
 import com.example.gatewayservice.dao.SensorData;
 import com.example.gatewayservice.dao.SensorStatus;
 import com.example.gatewayservice.dao.Views;
+import com.example.gatewayservice.validation.PageableMaxSize;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -31,7 +32,7 @@ public class AuditController {
     @JsonView({Views.SensorStatus.class})
     public ResponseEntity<List<SensorData>> getSensorDataWithStatus(
             @PathVariable("status") SensorStatus status,
-            Pageable page
+            @PageableMaxSize(maxPageSize = 400)  Pageable page
     ) {
         Page<SensorData> sensorWithStatus = auditClient.getAllSensorsWithStatus(status, page);
         return ResponseEntity.ok(sensorWithStatus.getContent());

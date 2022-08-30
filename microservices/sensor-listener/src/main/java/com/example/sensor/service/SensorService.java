@@ -33,7 +33,10 @@ public class SensorService {
         return convertToSensorData(sensorsByDateTimeBetween);
     }
 
-
+    //todo: mb refact
+    //  CompletableFuture  = kafkaProductService.send(...);
+    //onSuccess = ok;
+    //onFailure : add to queue and resend
     public Sensor save(SensorMetricsDao sensorMetrics) {
         return sensorRepository.save(convertToSensor(sensorMetrics));
     }
