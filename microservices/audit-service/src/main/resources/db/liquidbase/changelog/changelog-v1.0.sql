@@ -1,54 +1,29 @@
 --liquibase formatted sql
 
 --changeset Admin:1.0
-CREATE SEQUENCE sensor_seq as int8 start 10;
+CREATE TABLE IF NOT EXISTS sensor
+(
+    id          SERIAL                      NOT NULL,
+    sensor_name VARCHAR(50)                 NOT NULL,
+    sensor_data INT4                        NOT NULL,
+    timestamp   TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    status      VARCHAR(50)                 NOT NULL,
+    PRIMARY KEY (id)
+) PARTITION BY HASH (id);
 
 --changeset Admin:1.1
-CREATE TABLE SENSOR
-(
-    id          serial                      not null,
-    sensor_name varchar(50)                 not null,
-    sensor_data int4                        not null,
-    timestamp   timestamp without time zone not null,
-    status      varchar(50)                 not null,
-    primary key (id, status)
-) PARTITION BY LIST (status);
+CREATE INDEX idx_sensor_status ON sensor (status);
 
 --changeset Admin:1.2
-CREATE TABLE SENSOR_NORMAL PARTITION OF SENSOR FOR VALUES IN ('NORMAL');
+CREATE TABLE IF NOT EXISTS SENSOR_HASH_PART_0_of_4 PARTITION OF SENSOR FOR VALUES WITH (MODULUS 4, REMAINDER 0);
 
 --changeset Admin:1.3
-CREATE TABLE SENSOR_LOADED PARTITION OF SENSOR FOR VALUES IN ('LOADED');
+CREATE TABLE IF NOT EXISTS SENSOR_HASH_PART_1_of_4 PARTITION OF SENSOR FOR VALUES WITH (MODULUS 4, REMAINDER 1);
 
 --changeset Admin:1.4
-CREATE TABLE SENSOR_FAILED PARTITION OF SENSOR FOR VALUES IN ('FAILED');
+CREATE TABLE IF NOT EXISTS SENSOR_HASH_PART_2_OF_4 PARTITION OF SENSOR FOR VALUES WITH (MODULUS 4, REMAINDER 2);
 
 --changeset Admin:1.5
-CREATE OR REPLACE FUNCTION sensor_insert_trigger()
-    RETURNS TRIGGER AS
-'
-    BEGIN
-        IF (NEW.status = ''NORMAL'')
-        THEN
-            INSERT INTO SENSOR_NORMAL VALUES (NEW.*);
-        ELSIF (NEW.status = ''LOADED'')
-        THEN
-            INSERT INTO SENSOR_LOADED VALUES (NEW.*);
-        ELSIF (NEW.status = ''FAILED'')
-        THEN
-            INSERT INTO SENSOR_FAILED VALUES (NEW.*);
-        ELSE
-            RAISE EXCEPTION ''STATUS is incorrect'';
-        END IF;
-        RETURN NULL;
-    END;
-'
-    LANGUAGE plpgsql;
+CREATE TABLE IF NOT EXISTS SENSOR_HASH_PART_3_OF_4 PARTITION OF SENSOR FOR VALUES WITH (MODULUS 4, REMAINDER 3);
 
---changeset Admin:1.6
-CREATE TRIGGER insert_measurement_trigger
-    BEFORE INSERT OR UPDATE
-    ON SENSOR
-    FOR EACH ROW
-    WHEN ( pg_trigger_depth() = 0)
-EXECUTE PROCEDURE sensor_insert_trigger();
+

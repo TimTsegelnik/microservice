@@ -1,0 +1,12 @@
+server:
+  port: 8088
+spring:
+  kafka:
+    template:
+      default-topic: sensor
+    producer:
+      bootstrap-servers: ${BOOTSTRAP-SERVERS:localhost:9092}
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        spring.json.type.mapping: "sensorData:com.example.sensor.domein.SensorData"

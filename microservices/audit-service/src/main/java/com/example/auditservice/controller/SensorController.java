@@ -7,13 +7,13 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
 
 @RestController
-@RequestMapping("/audit/v1/sensors")
+@RequestMapping("/audit")
 @AllArgsConstructor
 @Slf4j
 public class SensorController {
@@ -24,7 +24,17 @@ public class SensorController {
             @PathVariable("status") SensorStatus status,
             Pageable page
     ) {
-        log.info("SensorController Get: /{status} with status={}, {}", status, page);
-        return sensorService.getAllSensorWithStatus(page, status);
+        log.info("SensorController Get: /audit/v1/sensors/{status} with status={}, {}", status, page);
+        return sensorService.findByStatus(page, status);
+    }
+
+    @GetMapping("/between")
+    public Page<Sensor> findSensorsBetween(
+            @RequestParam("startWith") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startWith,
+            @RequestParam("endWith") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endWith,
+            Pageable page
+    ) {
+        log.info("SensorController Get: /audit/v1/sensors/between/ startWith={}, endWith={}, pageable={}", startWith, endWith, page);
+        return sensorService.findSensorsBetween(page, startWith, endWith);
     }
 }

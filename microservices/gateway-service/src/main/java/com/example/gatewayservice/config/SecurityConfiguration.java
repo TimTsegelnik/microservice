@@ -1,59 +1,55 @@
 package com.example.gatewayservice.config;
 
+import org.keycloak.adapters.springsecurity.KeycloakConfiguration;
+import org.keycloak.adapters.springsecurity.authentication.KeycloakAuthenticationProvider;
+import org.keycloak.adapters.springsecurity.config.KeycloakWebSecurityConfigurerAdapter;
+import org.keycloak.adapters.springsecurity.management.HttpSessionManager;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
-import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.web.filter.CommonsRequestLoggingFilter;
+import org.springframework.security.core.authority.mapping.SimpleAuthorityMapper;
+import org.springframework.security.core.session.SessionRegistryImpl;
+import org.springframework.security.web.authentication.session.RegisterSessionAuthenticationStrategy;
+import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
 
 import static com.example.gatewayservice.config.ApplicationUserRole.ADMIN;
 
-@Configuration
-@EnableWebSecurity
-public class SecurityConfiguration {
+@KeycloakConfiguration
+public class
+SecurityConfiguration extends KeycloakWebSecurityConfigurerAdapter {
 
-    private final PasswordEncoder passwordEncoder;
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        SimpleAuthorityMapper grantedAuthorityMapper = new SimpleAuthorityMapper();
+        grantedAuthorityMapper.setPrefix("ROLE_");
 
-    public SecurityConfiguration(PasswordEncoder passwordEncoder) {
-        this.passwordEncoder = passwordEncoder;
+        KeycloakAuthenticationProvider keycloakAuthenticationProvider
+                = keycloakAuthenticationProvider();
+        keycloakAuthenticationProvider.setGrantedAuthoritiesMapper(grantedAuthorityMapper);
+        auth.authenticationProvider(keycloakAuthenticationProvider);
+    }
+
+
+    @Bean
+    @Override
+    protected SessionAuthenticationStrategy sessionAuthenticationStrategy() {
+        return new RegisterSessionAuthenticationStrategy(new SessionRegistryImpl());
     }
 
     @Bean
-    protected UserDetailsService userDetailsService() {
-        UserDetails admin = User.builder()
-                .username("admin")
-                .password(passwordEncoder.encode("password"))
-                .roles(ADMIN.name())
-                .build();
-
-        return new InMemoryUserDetailsManager(admin);
+    @Override
+    @ConditionalOnMissingBean(HttpSessionManager.class)
+    protected HttpSessionManager httpSessionManager() {
+        return new HttpSessionManager();
     }
 
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        return http
-                .authorizeRequests(
-                        authorize -> authorize.anyRequest().hasRole(ADMIN.name())
-                )
-                .formLogin(Customizer.withDefaults())
-                .build();
-
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        super.configure(http);
+        http.authorizeRequests()
+                .anyRequest().hasRole(ADMIN.name());
     }
 
-    @Bean
-    public CommonsRequestLoggingFilter requestLoggingFilter() {
-        CommonsRequestLoggingFilter loggingFilter = new CommonsRequestLoggingFilter();
-        loggingFilter.setIncludeClientInfo(true);
-        loggingFilter.setIncludeQueryString(true);
-        loggingFilter.setIncludePayload(true);
-        loggingFilter.setMaxPayloadLength(64000);
-        return loggingFilter;
-    }
 }

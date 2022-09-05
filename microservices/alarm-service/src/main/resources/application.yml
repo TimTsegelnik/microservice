@@ -1,0 +1,45 @@
+server:
+  port: 8086
+
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+  liquibase:
+    change-log: classpath:db/liquidbase/changelog-master.yml
+
+  datasource:
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME:user}
+    password: ${SPRING_DATASOURCE_PASSWORD:1234}
+
+  kafka:
+    bootstrap-servers: ${BOOTSTRAP-SERVERS:localhost:9092}
+    consumer:
+      key-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+    properties:
+      spring.deserializer.key.delegate.class: org.apache.kafka.common.serialization.StringDeserializer
+      spring.deserializer.value.delegate.class: org.springframework.kafka.support.serializer.JsonDeserializer
+      spring.json.type.mapping: "sensorData:com.example.alarm.service.dto.SensorData"
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: shadow.wariorx007@gmail.com
+    password: kmaqcgpvjgupffgs
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.connectiontimeout: 5000
+      mail.smtp.timeout: 5000
+      mail.smtp.writetimeout: 5000
+      mail.smtp.starttls.enable: true
+
+custom:
+  email:
+    from: ${EMAIL_ADDRESS_TO:shadow.wariorx007@gmail.com}
+    to: ${EMAIL_ADDRESS_FROM:zlaypanda@mail.ru}

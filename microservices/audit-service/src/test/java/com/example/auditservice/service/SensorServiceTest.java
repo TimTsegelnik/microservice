@@ -2,6 +2,7 @@ package com.example.auditservice.service;
 
 import com.example.auditservice.domein.Sensor;
 import com.example.auditservice.repository.SensorRepository;
+import com.example.auditservice.service.impl.SensorServiceImpl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -19,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class SensorServiceTest {
 
     @Autowired
-    private SensorService sensorService;
+    private SensorServiceImpl sensorServiceImpl;
     @MockBean
     private SensorRepository sensorRepository;
 
@@ -28,7 +29,7 @@ class SensorServiceTest {
     void shouldProperlyConvertedSensorWithNormalStatus() {
         Mockito.when(sensorRepository.save(SENSOR_NORMAL)).thenReturn(SENSOR_NORMAL);
 
-        Sensor sensor = sensorService.save(SENSOR_DATA_NORMAL);
+        Sensor sensor = sensorServiceImpl.save(SENSOR_DATA_NORMAL);
 
         assertEquals(SENSOR_NORMAL, sensor);
 
@@ -39,7 +40,7 @@ class SensorServiceTest {
     void shouldProperlyConvertedSensorWithLoadedStatus() {
         Mockito.when(sensorRepository.save(SENSOR_LOADED)).thenReturn(SENSOR_LOADED);
 
-        Sensor sensor = sensorService.save(SENSOR_DATA_LOADED);
+        Sensor sensor = sensorServiceImpl.save(SENSOR_DATA_LOADED);
 
         assertEquals(SENSOR_LOADED, sensor);
     }
@@ -49,7 +50,7 @@ class SensorServiceTest {
     void shouldProperlyConvertedSensorWithFailedStatus() {
         Mockito.when(sensorRepository.save(SENSOR_FAILED)).thenReturn(SENSOR_FAILED);
 
-        Sensor sensor = sensorService.save(SENSOR_DATA_FAILED);
+        Sensor sensor = sensorServiceImpl.save(SENSOR_DATA_FAILED);
 
         assertEquals(SENSOR_FAILED, sensor);
     }
@@ -58,7 +59,7 @@ class SensorServiceTest {
     @DisplayName("Test: throw exception if SensorData contain incorrect value")
     void shouldThrowsErrorStatus() {
 
-        assertThrows(IllegalStateException.class, () -> sensorService.save(SENSOR_DATA_ERROR));
+        assertThrows(IllegalStateException.class, () -> sensorServiceImpl.save(SENSOR_DATA_ERROR));
 
     }
 }

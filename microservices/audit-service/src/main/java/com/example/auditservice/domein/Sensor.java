@@ -12,24 +12,24 @@ import java.util.Objects;
 @Getter
 @Setter
 @ToString
-@AllArgsConstructor
-@NoArgsConstructor
+@RequiredArgsConstructor
 @Table(name = "sensor")
-@IdClass(CompositeSensorKey.class)
 public class Sensor {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sensor_seq")
-    @SequenceGenerator(name = "sensor_seq", sequenceName = "sensor_seq", allocationSize = 1, initialValue = 10)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(name = "sensor_name", nullable = false)
     private String sensorId;
-    @Column(name = "timestamp", nullable = false)
-    private LocalDateTime dateTime;
+
     @Column(name = "sensor_data", nullable = false)
     private Integer sensorData;
-    @Id
-    @Column(name = "status", nullable = false)
+
+    @Column(name = "timestamp", nullable = false)
+    private LocalDateTime dateTime;
+
     @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
     private SensorStatus status;
 
     @Override
