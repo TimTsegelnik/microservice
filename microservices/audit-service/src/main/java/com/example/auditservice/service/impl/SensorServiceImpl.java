@@ -38,7 +38,7 @@ public class SensorServiceImpl implements SensorService {
     }
 
     @Override
-    public Page<Sensor> findSensorsBetween(Pageable page, LocalDateTime startWith, LocalDateTime endWith) {
-        return sensorRepository.findAllByDateTimeBetween(page, startWith, endWith);
+    public Page<Sensor> findSensorsBetween(SensorStatus status, LocalDateTime startWith, LocalDateTime endWith, Pageable page) {
+        return sensorRepository.findAllByStatusAndDateTimeBetween(page, status, startWith, endWith);
     }
 }

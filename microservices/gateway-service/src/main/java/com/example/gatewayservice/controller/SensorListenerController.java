@@ -25,7 +25,7 @@ import static com.example.gatewayservice.validation.ValidationPattern.DATE_TIME;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
-@RequestMapping
+@RequestMapping("/gate/v1/sensors")
 @AllArgsConstructor
 @Validated
 public class SensorListenerController {

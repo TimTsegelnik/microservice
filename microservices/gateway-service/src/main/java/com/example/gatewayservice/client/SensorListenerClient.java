@@ -7,7 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@FeignClient(name = "sensor-listener", url = "http://sensor-listener:8086")
+@FeignClient(name = "sensor-listener", url = "http://sensor-listener:8085")
 public interface SensorListenerClient {
     @GetMapping(value = "/sensor-listener")
     Page<Sensor> getAllSensors(Pageable page);

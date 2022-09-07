@@ -14,5 +14,5 @@ public interface SensorService {
 
     void sweepUpOldData(LocalDateTime dateTime);
 
-    Page<Sensor> findSensorsBetween(Pageable page, LocalDateTime startWith, LocalDateTime endWith);
+    Page<Sensor> findSensorsBetween(SensorStatus status, LocalDateTime startWith, LocalDateTime endWith, Pageable page);
 }

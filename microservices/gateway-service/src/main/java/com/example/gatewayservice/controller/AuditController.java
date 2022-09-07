@@ -43,9 +43,12 @@ public class AuditController {
         return ResponseEntity.ok(sensorWithStatus.getContent());
     }
 
-    @GetMapping(path = "/between", produces = APPLICATION_JSON_VALUE)
-    @JsonView(Views.SensorData.class)
+    @GetMapping(path = "/between/{status}", produces = APPLICATION_JSON_VALUE)
+    @JsonView(Views.SensorStatus.class)
     public ResponseEntity<List<Sensor>> findSensorBetween(
+            @ApiParam(allowableValues = "NORMAL, LOADED, FAILED")
+            @PathVariable("status") @NotNull @Pattern(regexp = SENSOR_STATUS) String status,
+
             @ApiParam(type = "string", format = "date-time")
             @RequestParam("startWith") @NotNull @Pattern(regexp = DATE_TIME) String startWith,
 
@@ -53,7 +56,7 @@ public class AuditController {
             @RequestParam("endWith") @NotNull @Pattern(regexp = DATE_TIME) String endWith,
 
             @PageableMaxSize(maxPageSize = 400) @PageableDefault(size = 20) Pageable page) {
-        Page<Sensor> sensorBetween = auditClient.findSensorBetween(startWith, endWith, page);
+        Page<Sensor> sensorBetween = auditClient.findSensorBetween(status, startWith, endWith, page);
         return ResponseEntity.ok(sensorBetween.getContent());
     }
 

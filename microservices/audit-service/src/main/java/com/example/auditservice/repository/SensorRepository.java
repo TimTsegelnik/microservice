@@ -16,5 +16,5 @@ public interface SensorRepository extends PagingAndSortingRepository<Sensor, Lon
 
     void deleteAllByDateTimeIsBefore(LocalDateTime dateTime);
 
-    Page<Sensor> findAllByDateTimeBetween(Pageable page, LocalDateTime startWith, LocalDateTime endWith);
+    Page<Sensor> findAllByStatusAndDateTimeBetween(Pageable page, SensorStatus status, LocalDateTime startWith, LocalDateTime endWith);
 }

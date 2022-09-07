@@ -15,8 +15,9 @@ public interface AuditClient {
             @PathVariable("status") String status,
             Pageable page);
 
-    @GetMapping(value = "/audit/between")
+    @GetMapping(value = "/audit/between/{status}")
     Page<Sensor> findSensorBetween(
+            @PathVariable("status") String status,
             @RequestParam("startWith") String startWith,
             @RequestParam("endWith") String endWith,
             Pageable page);

@@ -28,13 +28,14 @@ public class SensorController {
         return sensorService.findByStatus(page, status);
     }
 
-    @GetMapping("/between")
+    @GetMapping("/between/{status}")
     public Page<Sensor> findSensorsBetween(
+            @PathVariable("status") SensorStatus status,
             @RequestParam("startWith") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startWith,
             @RequestParam("endWith") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endWith,
             Pageable page
     ) {
-        log.info("SensorController Get: /audit/v1/sensors/between/ startWith={}, endWith={}, pageable={}", startWith, endWith, page);
-        return sensorService.findSensorsBetween(page, startWith, endWith);
+        log.info("SensorController Get: /audit/v1/sensors/between/{} startWith={}, endWith={}, pageable={}",status, startWith, endWith, page);
+        return sensorService.findSensorsBetween(status, startWith, endWith, page);
     }
 }
