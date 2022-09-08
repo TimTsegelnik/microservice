@@ -2,6 +2,9 @@ package com.example.sensor.service;
 
 import com.example.sensor.domein.SensorData;
 
-public interface ProducerService {
-    void send(SensorData data);
+import java.util.List;
+
+public interface ProducerService<T> {
+    void send(T data);
+    void sendBatch(List<T> data);
 }

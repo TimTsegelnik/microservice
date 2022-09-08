@@ -13,7 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-
+import java.util.List;
 
 
 @Service
@@ -22,17 +22,20 @@ import java.time.LocalDateTime;
 public class SensorServiceImpl implements SensorService {
     private final SensorRepository sensorRepository;
     private final SensorMapper sensorMapper;
+
     @Override
     public Sensor save(SensorData sensorData) {
-        return sensorRepository.save(convertToSensor(sensorData));
-    }
-
-    private Sensor convertToSensor(SensorData data) {
-        Sensor sensor = sensorMapper.toSensor(data);
+        Sensor sensor = sensorMapper.toSensor(sensorData);
         log.info("Sensor is saving in db: {}", sensor);
-        return sensor;
+        return sensorRepository.save(sensor);
     }
 
+    @Override
+    public Iterable<Sensor> saveAll(List<SensorData> dataList) {
+        List<Sensor> sensors = sensorMapper.toSensorsList(dataList);
+        log.info("Sensor is saving in db: {}", sensors);
+        return sensorRepository.saveAll(sensors);
+    }
 
     @Override
     public void sweepUpOldData(LocalDateTime dateTime) {
@@ -46,6 +49,7 @@ public class SensorServiceImpl implements SensorService {
 
     @Override
     public Page<Sensor> findAll(Pageable page) {
-       return sensorRepository.findAll(page);
+        return sensorRepository.findAll(page);
     }
+
 }

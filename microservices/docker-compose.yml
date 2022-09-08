@@ -137,6 +137,8 @@ services:
     restart: always
     environment:
       - BOOTSTRAP-SERVERS=kafka:9092
+    depends_on:
+      - config-server
 
   zookeeper:
     image: 'bitnami/zookeeper:latest'
@@ -164,3 +166,16 @@ services:
       - zookeeper
     volumes:
       - ./:/etc/kafka
+
+  config-server:
+    image: 'config-server'
+    build:
+      context: config-server/.
+    container_name: config
+    networks:
+      - service-network
+    restart: always
+    expose:
+      - '8888'
+    ports:
+      - '8888:8888'

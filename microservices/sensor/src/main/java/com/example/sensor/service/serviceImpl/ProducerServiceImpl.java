@@ -10,27 +10,38 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.util.concurrent.ListenableFutureCallback;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 @Slf4j
-public class ProducerServiceImpl implements ProducerService {
+public class ProducerServiceImpl implements ProducerService<SensorData> {
 
     private final KafkaTemplate<String, SensorData> kafkaTemplate;
 
     @Override
     public void send(SensorData data) {
-        ListenableFuture<SendResult<String, SensorData>> future = kafkaTemplate.sendDefault(data);
+        getResultLog(kafkaTemplate.sendDefault(data));
+    }
+
+    @Override
+    public void sendBatch(List<SensorData> data) {
+        data.stream()
+                .map(kafkaTemplate::sendDefault)
+                .forEach(ProducerServiceImpl::getResultLog);
+    }
+
+    private static void getResultLog( ListenableFuture<SendResult<String, SensorData>> future) {
         future.addCallback(new ListenableFutureCallback<>() {
             @Override
             public void onFailure(Throwable ex) {
-                log.error("unable to send data: {} with exception: {}", data, ex);
+                log.error("unable to send data", ex);
             }
 
             @Override
             public void onSuccess(SendResult<String, SensorData> result) {
-                log.info("send data: {} , with offset: {}", data, result.getRecordMetadata().offset());
+                log.info("send data: {} , with offset: {}", result.getProducerRecord().value(), result.getRecordMetadata().offset());
             }
         });
     }
-
 }

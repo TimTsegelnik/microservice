@@ -3,6 +3,9 @@ package com.example.sensorlistener.service;
 
 import com.example.sensorlistener.service.dto.SensorData;
 
-public interface BrokerConsumerService {
-    void listen(SensorData data);
+import java.util.List;
+
+public interface BrokerConsumerService<T> {
+    void batchListen(List<T> dataList);
+
 }

@@ -5,7 +5,9 @@ import com.example.sensor.service.SensorService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Random;
+import java.util.stream.Stream;
 
 @Service
 public class SensorServiceImpl implements SensorService {
@@ -17,6 +19,13 @@ public class SensorServiceImpl implements SensorService {
     @Override
     public SensorData getSensorData() {
         return createFakeSensorMetrics();
+    }
+
+    @Override
+    public List<SensorData> getBatchSensorData(Integer batchSize) {
+        return Stream.generate(this::createFakeSensorMetrics)
+                .limit(batchSize)
+                .toList();
     }
 
     private SensorData createFakeSensorMetrics() {
