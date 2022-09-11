@@ -21,6 +21,7 @@ services:
     depends_on:
       - audit-service
       - alarm-service
+      - config-server
 
       # ////////////////////////////
 
@@ -42,6 +43,7 @@ services:
     depends_on:
       - sensor
       - listener-db
+      - config-server
 
   listener-db:
     image: postgres:alpine3.13
@@ -78,6 +80,7 @@ services:
     depends_on:
       - sensor
       - alarm-db
+      - config-server
 
   alarm-db:
     image: postgres:alpine3.13
@@ -109,6 +112,7 @@ services:
     depends_on:
       - sensor
       - audit-db
+      - config-server
 
   audit-db:
     image: postgres:alpine3.13

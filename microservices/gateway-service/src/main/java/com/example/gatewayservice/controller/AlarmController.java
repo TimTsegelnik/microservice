@@ -1,6 +1,7 @@
 package com.example.gatewayservice.controller;
 
 import com.example.gatewayservice.client.AlarmServiceClient;
+import com.example.gatewayservice.controller.documentation.ApiPageable;
 import com.example.gatewayservice.dto.Sensor;
 import com.example.gatewayservice.dto.Views;
 import com.example.gatewayservice.validation.PageableMaxSize;
@@ -14,6 +15,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.List;
 
@@ -23,13 +25,14 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RequestMapping(value = "/gate/v1/errors")
 @AllArgsConstructor
 @Validated
+@ApiPageable
 public class AlarmController {
     private final AlarmServiceClient alarmServiceClient;
 
     @GetMapping(produces = APPLICATION_JSON_VALUE)
     @JsonView(Views.SensorData.class)
     public ResponseEntity<List<Sensor>> getErrorsSensor(
-            @PageableMaxSize(maxPageSize = 400) @PageableDefault(size = 20) Pageable page
+            @PageableMaxSize(maxPageSize = 400) @PageableDefault(size = 20) @ApiIgnore Pageable page
     ) {
         Page<Sensor> all = alarmServiceClient.getAll(page);
         return ResponseEntity.ok(all.getContent());

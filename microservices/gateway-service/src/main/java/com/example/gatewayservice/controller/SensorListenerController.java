@@ -1,6 +1,7 @@
 package com.example.gatewayservice.controller;
 
 import com.example.gatewayservice.client.SensorListenerClient;
+import com.example.gatewayservice.controller.documentation.ApiPageable;
 import com.example.gatewayservice.dto.Sensor;
 import com.example.gatewayservice.dto.Views;
 import com.example.gatewayservice.validation.PageableMaxSize;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -28,6 +30,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RequestMapping("/gate/v1/sensors")
 @AllArgsConstructor
 @Validated
+@ApiPageable
 public class SensorListenerController {
 
     private final SensorListenerClient sensorListenerClient;
@@ -35,7 +38,7 @@ public class SensorListenerController {
     @GetMapping(produces = APPLICATION_JSON_VALUE)
     @JsonView(Views.SensorData.class)
     public ResponseEntity<List<Sensor>> getAllSensors(
-            @PageableMaxSize(maxPageSize = 400) @PageableDefault(size = 20) Pageable page
+            @PageableMaxSize(maxPageSize = 400) @PageableDefault(size = 20) @ApiIgnore Pageable page
     ){
         Page<Sensor> allSensors = sensorListenerClient.getAllSensors(page);
         return ResponseEntity.ok(allSensors.getContent());
@@ -50,7 +53,7 @@ public class SensorListenerController {
             @ApiParam(type = "string", format = "date-time")
             @RequestParam("endWith") @NotNull @Pattern(regexp = DATE_TIME, message = "must be datetime") String endWith,
 
-            @PageableMaxSize(maxPageSize = 400) @PageableDefault(size = 20) Pageable page) {
+            @PageableMaxSize(maxPageSize = 400) @PageableDefault(size = 20) @ApiIgnore Pageable page) {
 
         Page<Sensor> sensorBetween = sensorListenerClient.getAllSensorsBetween(startWith, endWith, page);
         return ResponseEntity.ok(sensorBetween.getContent());
