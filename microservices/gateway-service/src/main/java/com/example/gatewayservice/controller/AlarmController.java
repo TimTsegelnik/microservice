@@ -25,12 +25,12 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RequestMapping(value = "/gate/v1/errors")
 @AllArgsConstructor
 @Validated
-@ApiPageable
 public class AlarmController {
     private final AlarmServiceClient alarmServiceClient;
 
     @GetMapping(produces = APPLICATION_JSON_VALUE)
     @JsonView(Views.SensorData.class)
+    @ApiPageable
     public ResponseEntity<List<Sensor>> getErrorsSensor(
             @PageableMaxSize(maxPageSize = 400) @PageableDefault(size = 20) @ApiIgnore Pageable page
     ) {

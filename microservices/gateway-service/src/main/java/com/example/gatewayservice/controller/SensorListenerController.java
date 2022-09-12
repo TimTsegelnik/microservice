@@ -30,13 +30,13 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RequestMapping("/gate/v1/sensors")
 @AllArgsConstructor
 @Validated
-@ApiPageable
 public class SensorListenerController {
 
     private final SensorListenerClient sensorListenerClient;
 
     @GetMapping(produces = APPLICATION_JSON_VALUE)
     @JsonView(Views.SensorData.class)
+    @ApiPageable
     public ResponseEntity<List<Sensor>> getAllSensors(
             @PageableMaxSize(maxPageSize = 400) @PageableDefault(size = 20) @ApiIgnore Pageable page
     ){
@@ -46,6 +46,7 @@ public class SensorListenerController {
 
     @GetMapping(path = "/between", produces = APPLICATION_JSON_VALUE)
     @JsonView(Views.SensorData.class)
+    @ApiPageable
     public ResponseEntity<List<Sensor>> findSensorBetween(
             @ApiParam(type = "string", format = "date-time")
             @RequestParam("startWith") @NotNull @Pattern(regexp = DATE_TIME, message = "must be datetime") String startWith,

@@ -30,13 +30,15 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RequestMapping("gate/v1/count-status")
 @AllArgsConstructor
 @Validated
-@ApiPageable
 public class CompositeController {
 
     private final CompositeRequestService compositeRequestService;
 
+
     @GetMapping(value = "/{status}", produces = APPLICATION_JSON_VALUE)
+    @ApiPageable
     public ResponseEntity<CompositeSensorResponse> getCountErrorWithStatus(
+
             @ApiParam(allowableValues = "NORMAL, LOADED, FAILED")
             @PathVariable @NotNull @Pattern(regexp = SENSOR_STATUS) String status,
 
