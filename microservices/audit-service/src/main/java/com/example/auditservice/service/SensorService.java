@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 
 public interface SensorService {
     Sensor save(SensorData data);
+
     Page<Sensor> findByStatus(Pageable page, SensorStatus status);
 
     void sweepUpOldData(LocalDateTime dateTime);

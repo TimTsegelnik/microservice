@@ -1,4 +1,4 @@
-package com.example.sensor.service.serviceImpl;
+package com.example.sensor.service.service_impl;
 
 import com.example.sensor.domein.SensorData;
 import com.example.sensor.service.SensorService;

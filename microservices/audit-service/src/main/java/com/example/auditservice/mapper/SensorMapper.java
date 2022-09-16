@@ -8,13 +8,12 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 
 import static com.example.auditservice.domein.SensorStatus.*;
-import static com.example.auditservice.domein.SensorStatus.FAILED;
 
 @Mapper(componentModel = "spring")
 public interface SensorMapper {
     SensorData toSensorData(Sensor sensor);
 
-    @Mapping(source = "sensorData", target = "status", qualifiedByName = "getSensorStatus")
+    @Mapping(source = "sensorValue", target = "status", qualifiedByName = "getSensorStatus")
     Sensor toSensor(SensorData data);
 
     @Named("getSensorStatus")

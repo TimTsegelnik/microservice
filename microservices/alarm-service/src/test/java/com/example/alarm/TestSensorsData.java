@@ -1,4 +1,4 @@
-package com.example.servicemessenger;
+package com.example.alarm;
 
 import com.example.alarm.domein.Sensor;
 
@@ -12,19 +12,19 @@ public final class TestSensorsData {
     static {
         POPULATED_SENSOR_1 = new Sensor();
         POPULATED_SENSOR_1.setSensorId("qwerty@1223");
-        POPULATED_SENSOR_1.setSensorData(100);
+        POPULATED_SENSOR_1.setSensorValue(100);
         POPULATED_SENSOR_1.setDateTime(LocalDateTime.parse("2022-08-26T12:14:46.999974"));
 
 
         POPULATED_SENSOR_2 = new Sensor();
         POPULATED_SENSOR_2.setSensorId("qwerty@1223");
-        POPULATED_SENSOR_2.setSensorData(100);
+        POPULATED_SENSOR_2.setSensorValue(100);
         POPULATED_SENSOR_2.setDateTime(LocalDateTime.parse("2022-08-26T12:14:46.999974"));
 
 
         POPULATED_SENSOR_3 = new Sensor();
         POPULATED_SENSOR_3.setSensorId("qwerty@1223");
-        POPULATED_SENSOR_3.setSensorData(100);
+        POPULATED_SENSOR_3.setSensorValue(100);
         POPULATED_SENSOR_3.setDateTime(LocalDateTime.parse("2022-08-26T12:14:46.999974"));
 
     }

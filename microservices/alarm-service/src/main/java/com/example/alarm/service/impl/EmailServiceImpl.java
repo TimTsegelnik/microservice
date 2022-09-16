@@ -1,7 +1,7 @@
 package com.example.alarm.service.impl;
 
+import com.example.alarm.domein.Sensor;
 import com.example.alarm.service.EmailService;
-import com.example.alarm.service.dto.SensorData;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,7 +16,7 @@ import java.time.format.DateTimeFormatter;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class EmailServiceImpl implements EmailService<SensorData> {
+public class EmailServiceImpl implements EmailService<Sensor> {
 
     private final JavaMailSender mailSender;
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd:MM:yyyy HH:mm");
@@ -27,7 +27,7 @@ public class EmailServiceImpl implements EmailService<SensorData> {
 
 
     @Override
-    public void send(SensorData data) {
+    public void send(Sensor data) {
         try {
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, "utf-8");
@@ -35,8 +35,8 @@ public class EmailServiceImpl implements EmailService<SensorData> {
             helper.setFrom(from);
             helper.setTo(to);
             helper.setSubject("Sensor data error");
-            helper.setText(String.format("Sensor's value exceed %d \n sensorId: %s, date: %s",
-                    data.getSensorData(),
+            helper.setText(String.format("Sensor's value exceed %d %n sensorId: %s, date: %s",
+                    data.getSensorValue(),
                     data.getSensorId(),
                     data.getDateTime().format(formatter)));
 

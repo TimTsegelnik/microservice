@@ -1,4 +1,4 @@
-package com.example.gatewayservice.controller.exceptionHandlers.dto;
+package com.example.gatewayservice.controller.exception_handlers.dto;
 
 import lombok.Builder;
 import lombok.Data;

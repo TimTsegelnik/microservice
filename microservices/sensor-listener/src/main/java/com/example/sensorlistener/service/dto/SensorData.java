@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class SensorData {
     private String sensorId;
-    private Integer sensorData;
+    private Integer sensorValue;
     private LocalDateTime dateTime;
 }
 

@@ -1,4 +1,4 @@
-package com.example.sensor.service.serviceImpl;
+package com.example.sensor.service.service_impl;
 
 import com.example.sensor.domein.SensorData;
 import com.example.sensor.service.ProducerService;
@@ -35,7 +35,7 @@ public class ProducerServiceImpl implements ProducerService<SensorData> {
         future.addCallback(new ListenableFutureCallback<>() {
             @Override
             public void onFailure(Throwable ex) {
-                log.error("unable to send data", ex);
+                log.error("unable to send data",ex);
             }
 
             @Override

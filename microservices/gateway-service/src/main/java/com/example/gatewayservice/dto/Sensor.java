@@ -10,7 +10,7 @@ public class Sensor {
     @JsonView(Views.SensorData.class)
     private String sensorId;
     @JsonView(Views.SensorData.class)
-    private Integer sensorData;
+    private Integer sensorValue;
     @JsonView(Views.SensorData.class)
     private LocalDateTime dateTime;
     @JsonView(Views.SensorStatus.class)

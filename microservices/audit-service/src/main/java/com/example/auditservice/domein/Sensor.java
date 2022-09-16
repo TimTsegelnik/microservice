@@ -22,8 +22,8 @@ public class Sensor {
     @Column(name = "sensor_name", nullable = false)
     private String sensorId;
 
-    @Column(name = "sensor_data", nullable = false)
-    private Integer sensorData;
+    @Column(name = "sensor_value", nullable = false)
+    private Integer sensorValue;
 
     @Column(name = "timestamp", nullable = false)
     private LocalDateTime dateTime;

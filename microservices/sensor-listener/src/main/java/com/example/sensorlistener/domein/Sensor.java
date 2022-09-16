@@ -25,8 +25,8 @@ public class Sensor {
     @Column(name = "timestamp", nullable = false)
     private LocalDateTime dateTime;
 
-    @Column(name = "sensor_data", nullable = false)
-    private Integer sensorData;
+    @Column(name = "sensor_value", nullable = false)
+    private Integer sensorValue;
 
     @Override
     public boolean equals(Object o) {

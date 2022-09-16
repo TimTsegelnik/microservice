@@ -1,6 +1,6 @@
-package com.example.gatewayservice.controller.exceptionHandlers;
+package com.example.gatewayservice.controller.exception_handlers;
 
-import com.example.gatewayservice.controller.exceptionHandlers.dto.ErrorsDto;
+import com.example.gatewayservice.controller.exception_handlers.dto.ErrorsDto;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,14 +29,14 @@ public class RestExceptionHandlers extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(ConstraintViolationException.class)
     public final ResponseEntity<Object> handleConstraintExceptions(ConstraintViolationException ex, WebRequest request) {
-        ErrorsDto constraint_error = ErrorsDto.builder()
+        ErrorsDto constraintError = ErrorsDto.builder()
                 .httpStatus(HttpStatus.BAD_REQUEST)
                 .message("Constraint Error")
                 .timestamp(LocalDateTime.now())
                 .details(ex.getMessage())
                 .build();
 
-        return new ResponseEntity<>(constraint_error, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(constraintError, HttpStatus.BAD_REQUEST);
     }
 
 }

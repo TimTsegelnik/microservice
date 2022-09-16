@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class SensorData {
     private String sensorId;
-    private Integer sensorData;
+    private Integer sensorValue;
     private LocalDateTime dateTime;
 }
 

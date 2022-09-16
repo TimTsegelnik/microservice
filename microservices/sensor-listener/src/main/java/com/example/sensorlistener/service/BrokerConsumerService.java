@@ -1,11 +1,12 @@
 package com.example.sensorlistener.service;
 
 
-import com.example.sensorlistener.service.dto.SensorData;
+import org.springframework.kafka.annotation.KafkaListener;
 
 import java.util.List;
 
 public interface BrokerConsumerService<T> {
+    @KafkaListener
     void batchListen(List<T> dataList);
 
 }
