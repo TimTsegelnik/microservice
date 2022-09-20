@@ -2,10 +2,6 @@ FROM openjdk:17-alpine
 
 WORKDIR /app
 
-COPY .mvn/ .mvn
-COPY mvnw pom.xml ./
-RUN ./mvnw dependency:go-offline
+COPY target/Sensor-Listener-0.0.1-SNAPSHOT.jar Sensor-Listener-0.0.1-SNAPSHOT.jar
 
-COPY src ./src
-
-CMD ["./mvnw", "spring-boot:run"]
+ENTRYPOINT ["java","-jar","Sensor-Listener-0.0.1-SNAPSHOT.jar"]
