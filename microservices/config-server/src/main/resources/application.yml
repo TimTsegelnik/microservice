@@ -6,6 +6,7 @@ spring:
       server:
         git:
           uri: https://github.com/TimTsegelnik/ms-config.git
+          refresh-rate: 10
   security:
     user:
       name: admin

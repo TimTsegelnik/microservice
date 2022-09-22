@@ -11,8 +11,8 @@ import java.time.LocalDateTime;
 public class Sensor {
     private Long id;
     private String sensorId;
-    private LocalDateTime dateTime;
     private Integer sensorValue;
+    private LocalDateTime dateTime;
 }
 
 

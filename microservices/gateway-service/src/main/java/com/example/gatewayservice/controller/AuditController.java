@@ -3,18 +3,17 @@ package com.example.gatewayservice.controller;
 import com.example.gatewayservice.client.AuditClient;
 import com.example.gatewayservice.dto.Sensor;
 import com.example.gatewayservice.dto.Views;
-import com.example.gatewayservice.controller.documentation.ApiPageable;
 import com.example.gatewayservice.validation.PageableMaxSize;
 import com.fasterxml.jackson.annotation.JsonView;
-import io.swagger.annotations.ApiParam;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
+import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -35,12 +34,11 @@ public class AuditController {
 
     @GetMapping(path = "/{status}", produces = APPLICATION_JSON_VALUE)
     @JsonView({Views.SensorStatus.class})
-    @ApiPageable
     public ResponseEntity<List<Sensor>> getSensorDataWithStatus(
-            @ApiParam(allowableValues = "NORMAL, LOADED, FAILED")
+            @Schema(allowableValues = {"NORMAL", "LOADED", "FAILED"})
             @PathVariable("status") @NotNull @Pattern(regexp = SENSOR_STATUS) String status,
 
-            @PageableMaxSize(maxPageSize = 400) @PageableDefault(size = 20) @ApiIgnore Pageable page
+            @PageableMaxSize(maxPageSize = 400) @PageableDefault(size = 20) @ParameterObject Pageable page
     ) {
         Page<Sensor> sensorWithStatus = auditClient.getAllSensorsWithStatus(status, page);
         return ResponseEntity.ok(sensorWithStatus.getContent());
@@ -48,18 +46,17 @@ public class AuditController {
 
     @GetMapping(path = "/between/{status}", produces = APPLICATION_JSON_VALUE)
     @JsonView(Views.SensorStatus.class)
-    @ApiPageable
     public ResponseEntity<List<Sensor>> findSensorBetween(
-            @ApiParam(allowableValues = "NORMAL, LOADED, FAILED")
+            @Schema(allowableValues = {"NORMAL", "LOADED", "FAILED"})
             @PathVariable("status") @NotNull @Pattern(regexp = SENSOR_STATUS) String status,
 
-            @ApiParam(type = "string", format = "date-time")
+            @Schema(type = "string", format = "date-time")
             @RequestParam("startWith") @NotNull @Pattern(regexp = DATE_TIME) String startWith,
 
-            @ApiParam(type = "string", format = "date-time")
+            @Schema(type = "string", format = "date-time")
             @RequestParam("endWith") @NotNull @Pattern(regexp = DATE_TIME) String endWith,
 
-            @PageableMaxSize(maxPageSize = 400) @PageableDefault(size = 20) @ApiIgnore Pageable page) {
+            @PageableMaxSize(maxPageSize = 400) @PageableDefault(size = 20) @ParameterObject Pageable page) {
         Page<Sensor> sensorBetween = auditClient.findSensorBetween(status, startWith, endWith, page);
         return ResponseEntity.ok(sensorBetween.getContent());
     }

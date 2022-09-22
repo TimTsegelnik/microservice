@@ -21,6 +21,7 @@ public final class JooqRepositoryUtils {
         return Sensor.builder()
                 .id(sensorsRecord.getId())
                 .sensorId(sensorsRecord.getSensorName())
+                .sensorValue(sensorsRecord.getSensorValue())
                 .dateTime(sensorsRecord.getTimestamp())
                 .build();
     }
@@ -28,7 +29,7 @@ public final class JooqRepositoryUtils {
     public static SensorsRecord toRecord(Sensor sensor) {
         SensorsRecord sensorsRecord = new SensorsRecord();
         sensorsRecord.setSensorName(sensor.getSensorId());
-        sensorsRecord.setSensorData(sensor.getSensorValue());
+        sensorsRecord.setSensorValue(sensor.getSensorValue());
         sensorsRecord.setTimestamp(sensor.getDateTime());
         return sensorsRecord;
     }

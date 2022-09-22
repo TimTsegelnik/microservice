@@ -1,4 +1,4 @@
-package com.example.gatewayservice.config;
+package com.example.gatewayservice.config.security;
 
 import org.keycloak.adapters.springboot.KeycloakSpringBootConfigResolver;
 import org.springframework.context.annotation.Bean;

@@ -1,12 +1,12 @@
 package com.example.gatewayservice.controller;
 
-import com.example.gatewayservice.controller.documentation.ApiPageable;
 import com.example.gatewayservice.dto.CompositeSensorResponse;
 import com.example.gatewayservice.dto.Sensor;
 import com.example.gatewayservice.service.CompositeRequestService;
 import com.example.gatewayservice.validation.PageableMaxSize;
-import io.swagger.annotations.ApiParam;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
+import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -36,13 +35,12 @@ public class CompositeController {
 
 
     @GetMapping(value = "/{status}", produces = APPLICATION_JSON_VALUE)
-    @ApiPageable
     public ResponseEntity<CompositeSensorResponse> getCountErrorWithStatus(
 
-            @ApiParam(allowableValues = "NORMAL, LOADED, FAILED")
+            @Schema(allowableValues = {"NORMAL", "LOADED", "FAILED"})
             @PathVariable @NotNull @Pattern(regexp = SENSOR_STATUS) String status,
 
-            @PageableMaxSize(maxPageSize = 400) @PageableDefault(size = 20) @ApiIgnore Pageable page
+            @PageableMaxSize(maxPageSize = 400) @PageableDefault(size = 20) @ParameterObject Pageable page
     ) throws ExecutionException, InterruptedException {
         CompletableFuture<List<Sensor>> allWithStatus = compositeRequestService.getAllWithStatusAsync(status, page);
         CompletableFuture<Long> errorCount = compositeRequestService.getErrorCountAsync();
