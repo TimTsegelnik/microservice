@@ -25,14 +25,14 @@ public class SensorServiceImpl implements SensorService {
 
     @Override
     public Sensor save(SensorData sensorData) {
-        Sensor sensor = sensorMapper.toSensor(sensorData);
+        Sensor sensor = sensorMapper.fromSensorData(sensorData);
         log.info("Sensor is saving in db: {}", sensor);
         return sensorRepository.save(sensor);
     }
 
     @Override
     public Iterable<Sensor> saveAll(List<SensorData> dataList) {
-        List<Sensor> sensors = sensorMapper.toSensorsList(dataList);
+        List<Sensor> sensors = sensorMapper.fromSensorDataToList(dataList);
         log.info("Sensor is saving in db: {}", sensors);
         return sensorRepository.saveAll(sensors);
     }

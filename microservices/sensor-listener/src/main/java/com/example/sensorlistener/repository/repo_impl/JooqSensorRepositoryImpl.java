@@ -3,6 +3,7 @@ package com.example.sensorlistener.repository.repo_impl;
 
 import com.example.sensorlistener.Tables;
 import com.example.sensorlistener.domein.Sensor;
+import com.example.sensorlistener.mapper.SensorMapper;
 import com.example.sensorlistener.repository.SensorRepository;
 import com.example.sensorlistener.repository.repo_impl.util.JooqRepositoryUtils;
 import com.example.sensorlistener.tables.records.SensorsRecord;
@@ -25,6 +26,7 @@ import static com.example.sensorlistener.tables.Sensors.SENSORS;
 public class JooqSensorRepositoryImpl implements SensorRepository {
 
     private final DSLContext jooq;
+    private final SensorMapper sensorMapper;
 
     @Override
     @Transactional
@@ -45,7 +47,7 @@ public class JooqSensorRepositoryImpl implements SensorRepository {
                 .fetchInto(SensorsRecord.class);
 
         return new PageImpl<>(
-                JooqRepositoryUtils.fromRecordsToList(sensorsRecords),
+                sensorMapper.fromSensorRecordsToList(sensorsRecords),
                 page,
                 jooq.fetchCount(Tables.SENSORS)
         );
@@ -55,22 +57,22 @@ public class JooqSensorRepositoryImpl implements SensorRepository {
     @Transactional
     public Sensor save(Sensor sensor) {
         SensorsRecord sensorsRecord = jooq.insertInto(Tables.SENSORS)
-                .set(JooqRepositoryUtils.toRecord(sensor))
+                .set(sensorMapper.toSensorRecord(sensor))
                 .returning()
                 .fetchOptional()
                 .orElseThrow(() -> new DataAccessException("Error inserting entity: " + sensor));
 
-        return JooqRepositoryUtils.fromRecord(sensorsRecord);
+        return sensorMapper.fromSensorRecord(sensorsRecord);
     }
 
     @Override
     @Transactional
     public Iterable<Sensor> saveAll(List<Sensor> sensors) {
-        int[] execute = jooq.batchInsert(JooqRepositoryUtils.toRecordList(sensors))
+        int[] execute = jooq.batchInsert(sensorMapper.toSensorRecordList(sensors))
                 .execute();
 
         for (int i = 0; i < execute.length; i++) {
-            if (execute[i] == 0){
+            if (execute[i] == 0) {
                 throw new DataAccessException("Error inserting entity: " + sensors.get(i));
             }
         }
@@ -88,7 +90,7 @@ public class JooqSensorRepositoryImpl implements SensorRepository {
                 .fetchInto(SensorsRecord.class);
 
         return new PageImpl<>(
-                JooqRepositoryUtils.fromRecordsToList(sensorsRecords),
+                sensorMapper.fromSensorRecordsToList(sensorsRecords),
                 page,
                 jooq.fetchCount(Tables.SENSORS)
         );
